@@ -70,5 +70,37 @@
         "stream": true
       }
     ]
+  },
+  "grove.radio1": {
+    "sounds": [
+      {
+        "name": "occult:grove/radio1",
+        "stream": true
+      }
+    ]
+  },
+  "grove.radio2": {
+    "sounds": [
+      {
+        "name": "occult:grove/radio2",
+        "stream": true
+      }
+    ]
+  },
+  "grove.radio3": {
+    "sounds": [
+      {
+        "name": "occult:grove/radio3",
+        "stream": true
+      }
+    ]
+  },
+  "grove.radio4": {
+    "sounds": [
+      {
+        "name": "occult:grove/radio4",
+        "stream": true
+      }
+    ]
   }
 }

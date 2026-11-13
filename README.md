@@ -30,6 +30,16 @@ Visions live in `config/wastelandvision/visions/<id>/`. The bundled vision is **
   and only for world meshers (see below); `ItemRendererMixin` icons; `ItemStackMixin` names (render thread only);
   `BlockStateBaseMixin` empty outlines for vanished blocks; Jade + JEI plugins.
 
+## 0.23.3 - ghost broadcasts, auto-versioning
+
+- Occult Foundry: four 'ghost broadcast' clips play in the groves like the waltz (one at a time, 45-150 s
+  gaps, cut out by ghosts): FDR's Fireside Chat 1 (1933, US federal work - public domain), loud opening
+  removed, chopped into shuffled/reversed syllable-sized grains (no word or place name survives), pitched
+  down, through an AM-radio chain with fading, static, a drifting whistle and a tuning sweep.
+  tools/gen_occult_radio.py <source.ogg> regenerates them.
+- build.gradle: every `build`/`jar`/`assemble` bumps the patch version in gradle.properties and
+  neoforge.mods.toml (`-PnoBump` to skip).
+
 ## 0.23.2 - waltz phrases with silences
 
 The grove waltz is no longer one endless loop: five phrases (Strauss 'The Blue Danube', Rosas 'Over the

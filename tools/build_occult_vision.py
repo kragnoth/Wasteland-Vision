@@ -194,7 +194,7 @@ V['ghosts'] = {
     "exclude": ["minecraft:ender_dragon", "minecraft:wither", "minecraft:warden", "minecraft:giant", "minecraft:elder_guardian"]}
 V['ambience'] = {
     "_comment": ("Client-only sound tied to the haunt zone (the ghosts' percent/scale). loops follow how deep you stand in a grove; "
-                 "duck_on_ghost cuts that loop the moment a ghost phases in. phrases + gap_seconds: play one phrase at a time (never the same twice running) with a random silence between. oneshots play a few blocks around you. midnight: at "
+                 "duck_on_ghost cuts that loop the moment a ghost phases in. The ghost broadcasts (tools/gen_occult_radio.py, from FDR's public-domain 1933 Fireside Chat, scrambled past recognition) work the same way. phrases + gap_seconds: play one phrase at a time (never the same twice running) with a random silence between. oneshots play a few blocks around you. midnight: at "
                  "18000 day time the bell tolls, then ghosts may walk anywhere (and twice as many) for ghost_surge_seconds. "
                  "All sounds are synthesised (tools/gen_occult_audio.py), loudness-matched with peaks limited so nothing "
                  "spikes in headphones, and play under the Ambient/Environment volume slider."),
@@ -202,7 +202,9 @@ V['ambience'] = {
     "loops": [
         {"sound": "occult:grove.crackle", "volume": 0.7},
         {"sound": "occult:grove.hum", "volume": 0.7},
-        {"phrases": ["occult:grove.waltz1", "occult:grove.waltz2", "occult:grove.waltz3", "occult:grove.waltz4", "occult:grove.waltz5"], "gap_seconds": [30, 120], "volume": 0.7, "duck_on_ghost": True}],
+        {"phrases": ["occult:grove.waltz1", "occult:grove.waltz2", "occult:grove.waltz3", "occult:grove.waltz4", "occult:grove.waltz5"], "gap_seconds": [30, 120], "volume": 0.7, "duck_on_ghost": True},
+        {"phrases": ["occult:grove.radio1", "occult:grove.radio2", "occult:grove.radio3", "occult:grove.radio4"],
+         "gap_seconds": [45, 150], "volume": 0.6, "duck_on_ghost": True}],
     "oneshots": [{"sound": "occult:grove.whisper", "volume": 0.7, "per_minute": 2.5, "min_depth": 0.5}],
     "midnight": {"sound": "occult:bell", "volume": 0.8, "tolls": 12, "interval_seconds": 3.2, "ghost_surge_seconds": 60}}
 V['smoke_columns'] = {

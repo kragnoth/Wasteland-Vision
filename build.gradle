@@ -4,7 +4,22 @@ plugins {
     id 'net.neoforged.moddev' version '2.0.115'
 }
 
-version = mod_version
+// Auto-increment: every build/jar/assemble bumps the patch number in gradle.properties and
+// neoforge.mods.toml before configuring, so each compiled jar has a new version. Skip with -PnoBump.
+def bumpTasks = ['build', 'jar', 'assemble']
+if (!project.hasProperty('noBump') && gradle.startParameter.taskNames.any { t -> bumpTasks.any { t == it || t.endsWith(':' + it) } }) {
+    def propsFile = file('gradle.properties')
+    def m = (propsFile.text =~ /(?m)^mod_version=(\d+)\.(\d+)\.(\d+)\s*$/)
+    if (m.find()) {
+        def next = "${m.group(1)}.${m.group(2)}.${(m.group(3) as int) + 1}"
+        propsFile.text = propsFile.text.replaceFirst(/(?m)^mod_version=.*$/, "mod_version=${next}")
+        def toml = file('src/main/resources/META-INF/neoforge.mods.toml')
+        toml.text = toml.text.replaceFirst(/(?m)^version=".*"$/, "version=\"${next}\"")
+        project.ext.mod_version = next
+        logger.lifecycle("Version bumped to ${next}")
+    }
+}
+version = project.ext.has('mod_version') ? project.ext.mod_version : mod_version
 group = mod_group_id
 
 base { archivesName = mod_id }
