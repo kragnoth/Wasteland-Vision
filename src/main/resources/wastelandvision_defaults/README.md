@@ -8,9 +8,9 @@ Every vision is a folder in `config/wastelandvision/visions/`. One vision ships 
 
 | Folder | Shows off |
 |---|---|
-| `soot_and_tar/` | **Soot & Tar** (light industrial pollution): every block keeps its own colour and model, slightly muted, with soft soot blotches and drips via the `stain` recolour option; a creosote wash on planks, tar in the mud, off-white snow, a brown haze, a little drifting ash (`ambient_particles`), a gentle grade shader. Its unused stand-ins (soot turf, plants, tar thorns) are there to swap back in for a heavier look |
-
-| `thermal_print/` | **Thermal Print**: a post-shader-only vision - the frame becomes a two-colour thermal/badge print (paper white, red ink, black ink, ordered dither). No block changes. Tunables in `assets/thermal/shaders/post/thermal.json` |
+| `soot_and_tar/` | **Soot & Tar** (light industrial pollution): every block keeps its own colour and model, slightly muted, with soot decals and drips; a creosote wash on planks, tar in the mud, 30% blighted (dead) trees and undergrowth, a brown haze, drifting ash, a gentle grade shader |
+| `thermal_print/` | **Thermal Print**: a post-shader-only vision - the frame becomes a two-colour thermal/badge print (paper, red ink, black ink, ordered dither) using Land's two-record colour method. No block changes. Tunables in `assets/thermal/shaders/post/thermal.json` |
+| `occult_foundry/` | **Occult Foundry** (occult steampunk/dieselpunk): lamplit brass, verdigris copper, rusted iron, poured concrete, lacquered wood, tar in the mud; haunted groves of spectral trees with client-only ghosts, grove ambience (crackle, hum, waltz phrases, whispers), a midnight bell, foundry smoke on the horizon and sky omens (smog sun, twin suns + black stars, eclipse). Uses every feature below |
 
 The older examples (Zone `wasteland`, `dustbowl`, `irradiated`, `haunted`) are no longer installed - they
 live in the mod's source under `extras/visions/` and still work: copy one into `visions/` to use it.
@@ -357,10 +357,145 @@ wraps every second - handy for grain) and `InSize`; any extra uniform you declar
 
 ---
 
+## `ghosts` - spectres in the blight zone (0.21)
+
+Client-only translucent mobs that wander a vision's blighted area (its "haunted groves"). They are built
+from real entity types but never added to the world: the server, other players, Jade, targeting and
+collision never see them. A ghost only phases in while the player looks toward it (inside `view_angle`,
+within `radius`, with line of sight) and phases out when they look away or it drifts out of the zone.
+
+```json
+"ghosts": {
+  "percent": 18, "scale": 18,
+  "max": 6, "spawn_every": 30, "radius": 48, "min_distance": 10,
+  "view_angle": 40, "line_of_sight": true,
+  "alpha": 0.38, "flicker": 0.25, "fade_ticks": 25, "tint": "#b3ecff",
+  "mobs": ["#minecraft:undead"], "land_only": true,
+  "categories": ["monster", "creature", "ambient"],
+  "exclude": ["minecraft:warden", "minecraft:giant"]
+}
+```
+
+| key | default | meaning |
+|---|---|---|
+| `percent` / `scale` | 18 / 18 | the zone - **use the same values as your blight rules** so ghosts live in the dead groves |
+| `max` / `spawn_every` | 6 / 30 | ghost cap and ticks between spawn attempts |
+| `radius` / `min_distance` | 48 / 10 | spawn ring around the player (blocks); ghosts further than `radius` are never shown |
+| `view_angle` | 40 | degrees either side of the crosshair a ghost must be within to phase in |
+| `line_of_sight` | true | terrain hides them |
+| `alpha` / `flicker` / `fade_ticks` | 0.38 / 0.25 / 25 | opacity, shimmer amount, phase-in/out time |
+| `tint` | `#b3ecff` | colour multiplied into every textured layer |
+| `mobs` | all | ids, globs (`mymod:*`) and `#entity_type_tags` allowed to haunt |
+| `land_only` | false | drop flyers and swimmers |
+| `categories` | all three | `monster`, `creature`, `ambient` |
+| `exclude` | - | ids never used. Bosses (`#c:bosses`) and mobs over 2.5 wide / 4 tall are always excluded |
+
+Ghosts use simple drift movement (no AI - mob AI is server-side): walkers follow the ground and play
+their walk animation, flyers hover and bob. A mob type that fails to build or render client-side is
+dropped silently for the session.
+
+## `ambience` - sound tied to the zone (0.22)
+
+```json
+"ambience": {
+  "depth_radius": 10, "fade_seconds": 3,
+  "loops": [
+    { "sound": "occult:grove.crackle", "volume": 0.7 },
+    { "phrases": ["occult:grove.waltz1", "occult:grove.waltz2"], "gap_seconds": [30, 120],
+      "volume": 0.7, "duck_on_ghost": true } ],
+  "oneshots": [ { "sound": "occult:grove.whisper", "volume": 0.7, "per_minute": 2.5, "min_depth": 0.5 } ],
+  "midnight": { "sound": "occult:bell", "volume": 0.8, "tolls": 12, "interval_seconds": 3.2, "ghost_surge_seconds": 60 }
+}
+```
+
+- **Depth**: how far into the zone the player stands (a ring of samples `depth_radius` blocks wide),
+  smoothed over `fade_seconds`. Without a `ghosts` block there is no zone and everything plays everywhere.
+- **`loops`** with `sound`: a continuous loop whose volume follows depth. With `phrases` + `gap_seconds`:
+  one phrase at a time (never the same twice running) with a random silence between.
+  `duck_on_ghost`: the sound cuts out the moment a ghost phases in (a phrase stops and its gap restarts).
+- **`oneshots`**: positional sounds a few blocks around the player, `per_minute` at full depth, only
+  above `min_depth`.
+- **`midnight`**: when the day clock ticks past 18000 (not a `/time set` jump), the sound plays `tolls`
+  times; then ghosts may appear anywhere, twice as many, for `ghost_surge_seconds`.
+
+Sounds are ordinary resource-pack sounds: put `.ogg` files under `assets/<ns>/sounds/` and declare the
+events in `assets/<ns>/sounds.json` (use `"stream": true` for long files). Everything plays in the
+**Ambient/Environment** category. Keep files loudness-matched with peaks well under full scale so
+nothing spikes in headphones - `tools/gen_occult_audio.py` shows one way (EBU R128 targets + a soft limiter).
+
+## `smoke_columns` - distant foundry smoke (0.22)
+
+```json
+"smoke_columns": { "density": 0.45, "cell": 112, "height": 110, "width": 12, "rise": 1.4, "puffs": 64,
+                   "wind": 25, "lean": 0.45, "max_distance": 180,
+                   "color_low": "#24211e", "color_high": "#5c5b5f", "ember": "#7a2e10" }
+```
+
+World-fixed plumes on the horizon: each `cell` x `cell` block square has a `density` chance of one.
+They're drawn from the vanilla campfire smoke sprites (your resource pack restyles them), rise, bend
+downwind (`wind` degrees, `lean`) and spread. Columns only show in a band just inside the fog wall -
+whatever the player's render distance - and dissolve as you approach, so the chimney is never reached.
+At night the base glows `ember`.
+
+## `sky_omens` - events in the sky (0.23)
+
+```json
+"sky_omens": {
+  "textures_namespace": "occult",
+  "smog_sun":  { "chance": 0.3, "color": "#b8652e", "cover": 0.92, "day_tint": "#ebd8bd" },
+  "twin_suns": { "chance": 0.06, "offset": 11, "lag": 4, "alpha": 0.6, "black_stars": 40, "second_moon": true },
+  "eclipse":   { "chance": 0.025, "duration_seconds": 150, "darken": 0.72, "ghost_surge": true, "music": true }
+}
+```
+
+Each in-game day rolls at most one omen from a hash of the day number, so every player with the vision
+sees the same omen on the same day without syncing. Drawn in the vanilla sky frame, on top of whatever
+sun/moon the resource pack provides. Omens hide behind rain.
+
+- **smog_sun**: the sun becomes a dull disc (`color`) under haze; the day is multiplied by `day_tint`.
+- **twin_suns**: a second, paler sun sets beside the real one (`offset`/`lag` degrees); that night
+  `black_stars` dark stars with pale rims rise and a small violet moon circles the moon.
+- **eclipse**: mid-morning to early afternoon, a black disc crosses the sun over `duration_seconds`; at
+  totality a corona flares, the world darkens by `darken` toward a cold blue, ghosts may walk anywhere
+  (`ghost_surge`) and the ambience plays wherever you stand (`music`).
+- `"force": "eclipse" | "twin_suns" | "smog_sun" | "none"` pins an omen - for testing only.
+
+Needs four textures in `assets/<textures_namespace>/textures/environment/`: `soft_disc.png`,
+`hard_disc.png`, `star_ring.png`, `corona.png` (white + alpha; copy them from `occult_foundry` or
+regenerate with `tools/gen_occult_sky.py`).
+
+## Swapping in another mod's block
+
+`swap` accepts any registered block id as the stand-in. With `"optional": true` the rule is skipped
+when that mod isn't installed - e.g. Occult Foundry shows plain glass as Create's framed glass:
+
+```json
+{ "if": { "blocks": ["minecraft:glass"] }, "then": "swap", "standin": "create:framed_glass", "optional": true }
+```
+
+## Workflow and tools (in the mod's source, `tools/`)
+
+1. Copy the closest vision folder, rename it, set `name`/`description`.
+2. Recolour first (`recolor_sets` + `retexture` rules); preview offline with
+   `python3 tools/preview_recolor.py <vision> <pack>/assets/minecraft out.png`.
+3. Check the folder: `python3 tools/validate_visions.py <visions folder>`.
+4. In game: **H H** reloads rules/atmosphere/ghosts/ambience/omens, **F3+T** reloads recolours, textures,
+   shaders and sounds. Read `mappings-<vision>.txt` to see what every rule caught.
+5. Run `tools/wastelandvision_audit.py` in the instance folder for a full before/after report of your
+   whole modpack (gaps, risky matches, suggested rules).
+
+Generators used by the bundled visions (examples of building a vision from scripts):
+`gen_soot.py` (Soot & Tar stand-ins), `gen_occult.py` (Occult Foundry stand-ins, drawn from Excalibur),
+`gen_occult_audio.py` (all Occult Foundry sounds, synthesised), `gen_occult_sky.py` (omen textures),
+`build_occult_vision.py` (writes Occult Foundry's whole `vision.json`).
+
+---
+
 ## Ideas
 - **Magical**: swap leaves to glowing crystal `leaves` stand-ins, plants to `cross` mana-flowers at
   60% visible, sky/fog toward violet, a bloom-ish post shader.
 - **Radiation**: see `extras/visions/irradiated/` in the mod source.
+- **Occult / haunted industry**: see `occult_foundry/` - blight zones + ghosts + ambience + omens together.
 - **Haunted**: see `extras/visions/haunted/`. `native` templates worth knowing: `{namespace}:soul_{path}` (torch,
   wall_torch, lantern, campfire, fire, sand), `{namespace}:cracked_{path}` (stone/deepslate/nether/
   blackstone bricks, deepslate tiles), `{namespace}:oxidized_{path}` (copper family),

@@ -1,4 +1,6 @@
-# Wasteland Vision (v0.18.0) - NeoForge 1.21.1
+# Wasteland Vision (v0.23.2) - NeoForge 1.21.1
+
+**How to make visions: [docs/Making-Visions.md](docs/Making-Visions.md)**
 
 A data-driven, client-side **hallucination layer**: while a *vision* is on, the player sees different
 blocks, plants, item icons/names, sky, fog and a screen colour grade. The real world never changes.
