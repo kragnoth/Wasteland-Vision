@@ -1,0 +1,13 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "com.kragnoth.wastelandvision.mixin.compat",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "SodiumMeshingMixin",
+    "SableMeshingMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

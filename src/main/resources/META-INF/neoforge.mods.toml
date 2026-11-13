@@ -1,0 +1,49 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="wastelandvision"
+version="0.23.2"
+displayName="Wasteland Vision"
+authors="Kragnoth"
+description='''
+A client-side hallucination layer: the world is fine, but you see something else.
+Ships with Soot & Tar: a dieselpunk smog world of soot-stained stone, creosoted timber, tar mud and falling ash.
+Toggle with the Wasteland Vision key (default H); data-driven visions live in config/wastelandvision/.
+'''
+
+[[mixins]]
+config="wastelandvision.mixins.json"
+
+# Optional compat (targets other mods via @Pseudo; silently skipped when they're absent)
+[[mixins]]
+config="wastelandvision.compat.mixins.json"
+
+[[dependencies.wastelandvision]]
+modId="neoforge"
+type="required"
+versionRange="[21.1.0,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.wastelandvision]]
+modId="minecraft"
+type="required"
+versionRange="[1.21.1,1.21.2)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.wastelandvision]]
+modId="jade"
+type="optional"
+versionRange="[15.0,)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.wastelandvision]]
+modId="jei"
+type="optional"
+versionRange="[19.0,)"
+ordering="NONE"
+side="CLIENT"

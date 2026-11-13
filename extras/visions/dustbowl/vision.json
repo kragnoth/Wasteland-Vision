@@ -1,0 +1,659 @@
+{
+  "_readme": "The original Wasteland look (dust, salt, rot), kept as its own vision. Copy this folder, rename it, and edit. See config/wastelandvision/README.md.",
+  "name": "Dustbowl",
+  "description": "Dead trees, rotten wood, dried grass and salt flats - the dry, Fallout-style wasteland.",
+  "standins": {
+    "dead_log": {
+      "type": "pillar",
+      "textures": {
+        "side": "dustbowl:block/dead_log",
+        "end": "dustbowl:block/dead_log_top"
+      }
+    },
+    "dead_wood": {
+      "type": "pillar",
+      "textures": {
+        "side": "dustbowl:block/dead_log",
+        "end": "dustbowl:block/dead_log"
+      }
+    },
+    "dead_stripped_log": {
+      "type": "pillar",
+      "textures": {
+        "side": "dustbowl:block/dead_stripped_log",
+        "end": "dustbowl:block/dead_stripped_log_top"
+      }
+    },
+    "dead_stripped_wood": {
+      "type": "pillar",
+      "textures": {
+        "side": "dustbowl:block/dead_stripped_log",
+        "end": "dustbowl:block/dead_stripped_log"
+      }
+    },
+    "dead_leaves": {
+      "type": "leaves",
+      "textures": {
+        "all": "dustbowl:block/dead_leaves"
+      }
+    },
+    "rotten_planks": {
+      "type": "cube",
+      "textures": {
+        "all": "dustbowl:block/rotten_planks"
+      }
+    },
+    "rotten_stairs": {
+      "type": "stairs",
+      "textures": {
+        "all": "dustbowl:block/rotten_planks"
+      }
+    },
+    "rotten_slab": {
+      "type": "slab",
+      "textures": {
+        "all": "dustbowl:block/rotten_planks"
+      }
+    },
+    "rotten_fence": {
+      "type": "fence",
+      "textures": {
+        "all": "dustbowl:block/rotten_planks"
+      }
+    },
+    "dried_grass_block": {
+      "type": "cube_bottom_top",
+      "textures": {
+        "top": "dustbowl:block/dried_grass_block_top",
+        "side": "dustbowl:block/dried_grass_block_side",
+        "bottom": "dustbowl:block/dry_dirt"
+      }
+    },
+    "dry_dirt": {
+      "type": "cube",
+      "textures": {
+        "all": "dustbowl:block/dry_dirt"
+      }
+    },
+    "cracked_earth": {
+      "type": "cube_bottom_top",
+      "textures": {
+        "top": "dustbowl:block/cracked_earth",
+        "side": "dustbowl:block/dry_dirt",
+        "bottom": "dustbowl:block/dry_dirt"
+      }
+    },
+    "dried_salt": {
+      "type": "cube_bottom_top",
+      "textures": {
+        "top": "dustbowl:block/dried_salt",
+        "side": "dustbowl:block/dried_salt_side",
+        "bottom": "dustbowl:block/dry_dirt"
+      }
+    },
+    "dried_grass": {
+      "type": "cross",
+      "textures": {
+        "cross": "dustbowl:block/dried_grass"
+      }
+    },
+    "withered_shrub": {
+      "type": "cross",
+      "textures": {
+        "cross": "dustbowl:block/withered_shrub"
+      }
+    },
+    "withered_flower": {
+      "type": "cross",
+      "textures": {
+        "cross": "dustbowl:block/withered_flower"
+      }
+    },
+    "dried_tall_grass": {
+      "type": "tall_cross",
+      "textures": {
+        "bottom": "dustbowl:block/dried_tall_grass_bottom",
+        "top": "dustbowl:block/dried_tall_grass_top"
+      }
+    }
+  },
+  "recolor_sets": {
+    "deadwood_stripped": {
+      "sprites": [
+        "*:block/stripped*"
+      ],
+      "palette": [
+        "#26231f",
+        "#45403a",
+        "#655e56",
+        "#857d73",
+        "#a19a8f"
+      ],
+      "contrast": 0.6
+    },
+    "deadwood_bark": {
+      "sprites": [
+        "*:block/*_log",
+        "*:block/*_log_*",
+        "*:block/*_bark*",
+        "*:block/*_branch*",
+        "*:block/*_wood"
+      ],
+      "palette": [
+        "#1c1b1a",
+        "#35322f",
+        "#524d48",
+        "#736d66",
+        "#938c84"
+      ],
+      "contrast": 0.6
+    },
+    "dead_foliage": {
+      "sprites": [
+        "*:block/*leaves*",
+        "*:block/*foliage*",
+        "*:block/*needles*"
+      ],
+      "palette": [
+        "#1b1714",
+        "#33291f",
+        "#4f3f2c",
+        "#6c5739",
+        "#86704c"
+      ],
+      "contrast": 0.9
+    },
+    "rotwood": {
+      "sprites": [
+        "*:block/*planks*"
+      ],
+      "palette": [
+        "#141210",
+        "#2a241e",
+        "#423829",
+        "#5d4e39",
+        "#776550"
+      ],
+      "contrast": 0.8,
+      "bias": 0.06
+    }
+  },
+  "plants": {
+    "visible_percent": 20,
+    "hide_hidden_outlines": true
+  },
+  "hazards": {
+    "_comment": "Blocks a rule would hide but that can still hurt, slow or block you. Damaging ones (contact effects: berry bushes, wither roses, cobwebs, modded thorns - detected automatically) show 'marker' instead; solid or climbable ones (lily pads, moss carpet, vines) are never hidden. 'blocks' adds extra damaging ids/#tags, 'ignore' opts blocks out.",
+    "marker": "minecraft:wither_rose",
+    "blocks": [],
+    "ignore": []
+  },
+  "atmosphere": {
+    "grass": {
+      "color": "#a8946a",
+      "amount": 0.85,
+      "brightness": 1.05
+    },
+    "foliage": {
+      "color": "#a8946a",
+      "amount": 0.85,
+      "brightness": 1.05
+    },
+    "water": {
+      "color": "#616652",
+      "amount": 0.75,
+      "brightness": 0.9
+    },
+    "sky": {
+      "color": "#b8a385",
+      "amount": 0.75
+    },
+    "fog": {
+      "color": "#b8a385",
+      "amount": 0.75
+    },
+    "fog_distance": 128,
+    "post_shader": "dustbowl:shaders/post/dustbowl.json"
+  },
+  "rules": [
+    {
+      "_comment": "Nether fungus wood is in #logs/#planks; the Nether is grim enough already.",
+      "if": {
+        "blocks": [
+          "#minecraft:crimson_stems",
+          "#minecraft:warped_stems",
+          "minecraft:crimson_planks",
+          "minecraft:warped_planks",
+          "minecraft:crimson_stairs",
+          "minecraft:warped_stairs",
+          "minecraft:crimson_slab",
+          "minecraft:warped_slab",
+          "minecraft:crimson_fence",
+          "minecraft:warped_fence"
+        ]
+      },
+      "then": "keep"
+    },
+    {
+      "_comment": "Use a block's own dead form if it has one (corals, coral fans, coral blocks...). Skipped when no such block exists.",
+      "then": "native",
+      "template": "{namespace}:dead_{path}",
+      "name": "Dead %s"
+    },
+    {
+      "_comment": "Gone entirely.",
+      "if": {
+        "blocks": [
+          "minecraft:vine",
+          "minecraft:lily_pad",
+          "minecraft:moss_carpet",
+          "minecraft:glow_lichen",
+          "minecraft:pink_petals",
+          "minecraft:spore_blossom"
+        ]
+      },
+      "then": "vanish",
+      "name": "Withered %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:mangrove_propagule"
+        ],
+        "properties": {
+          "hanging": "true"
+        }
+      },
+      "then": "vanish",
+      "name": "Withered %s"
+    },
+    {
+      "_comment": "Field plants: decided per block position. plants.visible_percent of them show a stand-in, the rest vanish.",
+      "if": {
+        "blocks": [
+          "#minecraft:small_flowers"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "standins": [
+        {
+          "id": "withered_flower",
+          "weight": 60
+        },
+        {
+          "id": "dried_grass",
+          "weight": 20
+        },
+        {
+          "id": "withered_shrub",
+          "weight": 10
+        },
+        {
+          "id": "minecraft:dead_bush",
+          "weight": 10
+        }
+      ],
+      "item": "withered_flower",
+      "name": "Withered %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:tall_flowers"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "standins": [
+        {
+          "id": "withered_flower",
+          "weight": 60
+        },
+        {
+          "id": "dried_grass",
+          "weight": 20
+        },
+        {
+          "id": "withered_shrub",
+          "weight": 10
+        },
+        {
+          "id": "minecraft:dead_bush",
+          "weight": 10
+        }
+      ],
+      "tall": {
+        "id": "dried_tall_grass",
+        "chance": 60
+      },
+      "item": "withered_flower",
+      "name": "Withered %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:tall_grass",
+          "minecraft:large_fern"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "standins": [
+        {
+          "id": "dried_grass",
+          "weight": 50
+        },
+        {
+          "id": "withered_shrub",
+          "weight": 25
+        },
+        {
+          "id": "minecraft:dead_bush",
+          "weight": 15
+        },
+        {
+          "id": "withered_flower",
+          "weight": 10
+        }
+      ],
+      "tall": {
+        "id": "dried_tall_grass",
+        "chance": 60
+      },
+      "item": "dried_tall_grass",
+      "name": "Dried %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:short_grass",
+          "minecraft:fern"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "standins": [
+        {
+          "id": "dried_grass",
+          "weight": 50
+        },
+        {
+          "id": "withered_shrub",
+          "weight": 25
+        },
+        {
+          "id": "minecraft:dead_bush",
+          "weight": 15
+        },
+        {
+          "id": "withered_flower",
+          "weight": 10
+        }
+      ],
+      "item": "dried_grass",
+      "name": "Dried %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:saplings"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "standins": [
+        {
+          "id": "dried_grass",
+          "weight": 50
+        },
+        {
+          "id": "withered_shrub",
+          "weight": 25
+        },
+        {
+          "id": "minecraft:dead_bush",
+          "weight": 15
+        },
+        {
+          "id": "withered_flower",
+          "weight": 10
+        }
+      ],
+      "item": "withered_shrub",
+      "name": "Withered %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:leaves"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "dead_leaves",
+      "name": "Dead %s"
+    },
+    {
+      "_comment": "Logs: stripped/barked x log/all-sided wood. Order matters: most specific first.",
+      "if": {
+        "blocks": [
+          "#minecraft:logs"
+        ],
+        "full_cube": true,
+        "stripped": true,
+        "id_ends_with": [
+          "_wood",
+          "_hyphae",
+          "_bark"
+        ]
+      },
+      "then": "swap",
+      "standin": "dead_stripped_wood",
+      "name": "Dead %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:logs"
+        ],
+        "full_cube": true,
+        "stripped": true
+      },
+      "then": "swap",
+      "standin": "dead_stripped_log",
+      "name": "Dead %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:logs"
+        ],
+        "full_cube": true,
+        "id_ends_with": [
+          "_wood",
+          "_hyphae",
+          "_bark"
+        ]
+      },
+      "then": "swap",
+      "standin": "dead_wood",
+      "name": "Dead %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:logs"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "dead_log",
+      "name": "Dead %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:planks"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "rotten_planks",
+      "name": "Rotten %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:wooden_stairs"
+        ],
+        "class": "stairs"
+      },
+      "then": "swap",
+      "standin": "rotten_stairs",
+      "name": "Rotten %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:wooden_slabs"
+        ],
+        "class": "slab"
+      },
+      "then": "swap",
+      "standin": "rotten_slab",
+      "name": "Rotten %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:wooden_fences"
+        ],
+        "class": "fence"
+      },
+      "then": "swap",
+      "standin": "rotten_fence",
+      "name": "Rotten %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:grass_block"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "dried_grass_block",
+      "name": "Dried %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:podzol"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "cracked_earth",
+      "name": "Parched %s"
+    },
+    {
+      "_comment": "Same texture as the dried grass block's sides, so grass-over-dirt is seamless.",
+      "if": {
+        "blocks": [
+          "#minecraft:dirt"
+        ],
+        "not_blocks": [
+          "minecraft:mycelium"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "dry_dirt",
+      "name": "Parched %s"
+    },
+    {
+      "_comment": "FALLBACK (after every swap): trunks the swaps couldn't take - Dynamic Trees / Regions Unexplored branches, shaped or untagged modded logs. Real model kept, textures recoloured. Matches id ENDINGS so 'analog'/'logic' blocks are never caught; coral 'branch' blocks are excluded.",
+      "if": {
+        "id_ends_with": [
+          "_log",
+          "_wood",
+          "_bark",
+          "_hyphae",
+          "_branch",
+          "_branches"
+        ],
+        "not_id_contains": [
+          "coral",
+          "copycat"
+        ],
+        "not_namespaces": [
+          "framedblocks",
+          "copycats",
+          "create",
+          "chipped_framed"
+        ]
+      },
+      "then": "retexture",
+      "recolor": [
+        "deadwood_stripped",
+        "deadwood_bark",
+        "dead_foliage"
+      ]
+    },
+    {
+      "_comment": "FALLBACK: foliage outside #leaves (hanging leaves, wisteria, modded needles).",
+      "if": {
+        "id_contains": [
+          "leaves",
+          "foliage",
+          "needles"
+        ],
+        "not_id_contains": [
+          "coral",
+          "copycat"
+        ],
+        "not_namespaces": [
+          "framedblocks",
+          "copycats",
+          "create",
+          "chipped_framed"
+        ]
+      },
+      "then": "retexture",
+      "recolor": [
+        "dead_foliage"
+      ]
+    },
+    {
+      "_comment": "FALLBACK: modded woodwork that isn't tagged/classed as wooden. Loose id match on purpose: blocks whose model has no plank-looking textures are pruned automatically at build time (see the log's 'matched but had no mapped textures' count).",
+      "if": {
+        "id_contains": [
+          "planks",
+          "stairs",
+          "slab",
+          "fence",
+          "door",
+          "trapdoor",
+          "pressure_plate",
+          "button",
+          "crate",
+          "shelf"
+        ],
+        "not_namespaces": [
+          "framedblocks",
+          "copycats",
+          "create",
+          "chipped_framed"
+        ],
+        "not_id_contains": [
+          "copycat",
+          "crimson",
+          "warped"
+        ]
+      },
+      "then": "retexture",
+      "recolor": "rotwood"
+    }
+  ]
+}

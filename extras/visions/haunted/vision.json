@@ -1,0 +1,756 @@
+{
+  "_readme": "Third example: the land of the dead, as seen by a lingering spirit. Shows the 'native' action at its strongest (soul fire/torches, dead coral, cracked/mossy stone, oxidized copper via path_replace), 100%-visible plant rules (every flower is a wither rose), and the carpet + crop stand-in types.",
+  "name": "Haunted",
+  "description": "Land of the dead: soul-blue flames, wither roses, dead and dying grass, gravewood trees, cold blue haze.",
+  "standins": {
+    "gravewood_log": {
+      "type": "pillar",
+      "textures": {
+        "side": "haunted:block/gravewood_log",
+        "end": "haunted:block/gravewood_log_top"
+      }
+    },
+    "gravewood": {
+      "type": "pillar",
+      "textures": {
+        "all": "haunted:block/gravewood_log"
+      }
+    },
+    "gravewood_stripped_log": {
+      "type": "pillar",
+      "textures": {
+        "side": "haunted:block/gravewood_stripped_log",
+        "end": "haunted:block/gravewood_stripped_log_top"
+      }
+    },
+    "gravewood_stripped": {
+      "type": "pillar",
+      "textures": {
+        "all": "haunted:block/gravewood_stripped_log"
+      }
+    },
+    "ghost_leaves": {
+      "type": "leaves",
+      "textures": {
+        "all": "haunted:block/ghost_leaves"
+      }
+    },
+    "grave_planks": {
+      "type": "cube",
+      "textures": {
+        "all": "haunted:block/grave_planks"
+      }
+    },
+    "grave_stairs": {
+      "type": "stairs",
+      "textures": {
+        "all": "haunted:block/grave_planks"
+      }
+    },
+    "grave_slab": {
+      "type": "slab",
+      "textures": {
+        "all": "haunted:block/grave_planks"
+      }
+    },
+    "grave_fence": {
+      "type": "fence",
+      "textures": {
+        "all": "haunted:block/grave_planks"
+      }
+    },
+    "dead_grass_block": {
+      "type": "cube_bottom_top",
+      "textures": {
+        "top": "haunted:block/dead_grass_block_top",
+        "side": "haunted:block/dead_grass_block_side",
+        "bottom": "haunted:block/grave_soil"
+      }
+    },
+    "grave_soil": {
+      "type": "cube",
+      "textures": {
+        "all": "haunted:block/grave_soil"
+      }
+    },
+    "grave_moss": {
+      "type": "cube",
+      "textures": {
+        "all": "haunted:block/grave_moss"
+      }
+    },
+    "grave_moss_carpet": {
+      "type": "carpet",
+      "textures": {
+        "wool": "haunted:block/grave_moss"
+      }
+    },
+    "dead_grass": {
+      "type": "cross",
+      "textures": {
+        "cross": "haunted:block/dead_grass"
+      }
+    },
+    "dying_grass": {
+      "type": "cross",
+      "textures": {
+        "cross": "haunted:block/dying_grass"
+      }
+    },
+    "dead_fern": {
+      "type": "cross",
+      "textures": {
+        "cross": "haunted:block/dead_fern"
+      }
+    },
+    "dead_tall_grass": {
+      "type": "tall_cross",
+      "textures": {
+        "bottom": "haunted:block/dead_tall_grass_bottom",
+        "top": "haunted:block/dead_tall_grass_top"
+      }
+    },
+    "withered_tall_flower": {
+      "type": "tall_cross",
+      "textures": {
+        "bottom": "haunted:block/withered_tall_flower_bottom",
+        "top": "haunted:block/withered_tall_flower_top"
+      }
+    },
+    "withered_crop": {
+      "type": "crop",
+      "textures": {
+        "crop": "haunted:block/withered_crop"
+      }
+    }
+  },
+  "recolor_sets": {
+    "gravewood_stripped": {
+      "sprites": [
+        "*:block/stripped*"
+      ],
+      "palette": [
+        "#262a31",
+        "#454b54",
+        "#6a7079",
+        "#90969e",
+        "#b6bbc1"
+      ],
+      "contrast": 0.6
+    },
+    "gravewood_bark": {
+      "sprites": [
+        "*:block/*_log",
+        "*:block/*_log_*",
+        "*:block/*_bark*",
+        "*:block/*_branch*",
+        "*:block/*_wood"
+      ],
+      "palette": [
+        "#0b0d11",
+        "#181c23",
+        "#272d36",
+        "#3b434f",
+        "#535c69"
+      ],
+      "contrast": 0.8
+    },
+    "ghost_foliage": {
+      "sprites": [
+        "*:block/*leaves*",
+        "*:block/*foliage*",
+        "*:block/*needles*"
+      ],
+      "palette": [
+        "#11151b",
+        "#212833",
+        "#353e4b",
+        "#4d5765",
+        "#6b7684"
+      ],
+      "contrast": 0.9
+    },
+    "grave_wood": {
+      "sprites": [
+        "*:block/*planks*"
+      ],
+      "palette": [
+        "#0d0f13",
+        "#1a1e25",
+        "#2a2f37",
+        "#3c434d",
+        "#525a65"
+      ],
+      "contrast": 0.8,
+      "bias": 0.05
+    }
+  },
+  "plants": {
+    "visible_percent": 45,
+    "hide_hidden_outlines": true
+  },
+  "hazards": {
+    "_comment": "Blocks a rule would hide but that can still hurt, slow or block you. Damaging ones (contact effects: berry bushes, wither roses, cobwebs, modded thorns - detected automatically) show 'marker' instead; solid or climbable ones (lily pads, moss carpet, vines) are never hidden. 'blocks' adds extra damaging ids/#tags, 'ignore' opts blocks out.",
+    "marker": "minecraft:wither_rose",
+    "blocks": [],
+    "ignore": []
+  },
+  "atmosphere": {
+    "grass": {
+      "color": "#6d7c8c",
+      "amount": 0.9,
+      "brightness": 0.95
+    },
+    "foliage": {
+      "color": "#5c6c7e",
+      "amount": 0.9,
+      "brightness": 0.9
+    },
+    "water": {
+      "color": "#1e2b44",
+      "amount": 0.85,
+      "brightness": 0.8
+    },
+    "sky": {
+      "color": "#7a8ca6",
+      "amount": 0.85
+    },
+    "fog": {
+      "color": "#7488a3",
+      "amount": 0.85
+    },
+    "fog_distance": 72,
+    "post_shader": "haunted:shaders/post/spirit.json"
+  },
+  "rules": [
+    {
+      "_comment": "Leave the Nether's fungus wood and the wither rose itself alone.",
+      "if": {
+        "blocks": [
+          "#minecraft:crimson_stems",
+          "#minecraft:warped_stems",
+          "minecraft:crimson_planks",
+          "minecraft:warped_planks",
+          "minecraft:crimson_stairs",
+          "minecraft:warped_stairs",
+          "minecraft:crimson_slab",
+          "minecraft:warped_slab",
+          "minecraft:crimson_fence",
+          "minecraft:warped_fence",
+          "minecraft:wither_rose"
+        ]
+      },
+      "then": "keep"
+    },
+    {
+      "_comment": "Every flame burns soul-blue; sand becomes soul sand. (Light level is still the real block's.)",
+      "if": {
+        "blocks": [
+          "minecraft:torch",
+          "minecraft:wall_torch",
+          "minecraft:lantern",
+          "minecraft:campfire",
+          "minecraft:fire",
+          "minecraft:sand"
+        ]
+      },
+      "then": "native",
+      "template": "{namespace}:soul_{path}",
+      "name": "Spectral %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:red_sand",
+          "minecraft:suspicious_sand"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "minecraft:soul_sand",
+      "name": "Spectral %s"
+    },
+    {
+      "_comment": "Any block with a built-in dead form (corals, coral fans, coral blocks, modded dead_X).",
+      "then": "native",
+      "template": "{namespace}:dead_{path}",
+      "name": "Dead %s"
+    },
+    {
+      "_comment": "Ruins: bricks crack. path_replace strips 'mossy_' first, so mossy stone bricks also become cracked.",
+      "then": "native",
+      "template": "{namespace}:cracked_{path}",
+      "path_replace": {
+        "mossy_": ""
+      },
+      "name": "Crumbling %s"
+    },
+    {
+      "_comment": "Anything still mossy (cobblestone, mossy brick stairs/slabs/walls) loses its moss.",
+      "if": {
+        "id_contains": [
+          "mossy_"
+        ]
+      },
+      "then": "native",
+      "template": "{namespace}:{path}",
+      "path_replace": {
+        "mossy_": ""
+      },
+      "name": "Crumbling %s"
+    },
+    {
+      "_comment": "Copper has sat for a thousand years: fully oxidized (unwaxed blocks only).",
+      "if": {
+        "id_contains": [
+          "copper"
+        ],
+        "not_blocks": [
+          "minecraft:copper_ore",
+          "minecraft:deepslate_copper_ore",
+          "minecraft:raw_copper_block"
+        ]
+      },
+      "then": "native",
+      "template": "{namespace}:oxidized_{path}",
+      "path_replace": {
+        "exposed_": "",
+        "weathered_": ""
+      },
+      "name": "Corroded %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:copper_block",
+          "minecraft:exposed_copper",
+          "minecraft:weathered_copper"
+        ]
+      },
+      "then": "swap",
+      "standin": "minecraft:oxidized_copper",
+      "name": "Corroded %s"
+    },
+    {
+      "_comment": "Gone. Vines and glow lichen stay: the foliage tint turns vines grey, and the lichen glows like spirit-light.",
+      "if": {
+        "blocks": [
+          "minecraft:pink_petals",
+          "minecraft:spore_blossom",
+          "minecraft:lily_pad"
+        ]
+      },
+      "then": "vanish",
+      "name": "Withered %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:mangrove_propagule"
+        ],
+        "properties": {
+          "hanging": "true"
+        }
+      },
+      "then": "vanish",
+      "name": "Withered %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:moss_carpet"
+        ],
+        "class": "carpet"
+      },
+      "then": "swap",
+      "standin": "grave_moss_carpet",
+      "name": "Grave %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:moss_block"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "grave_moss",
+      "name": "Grave %s"
+    },
+    {
+      "_comment": "Every flower is a wither rose (100% visible - nothing vanishes).",
+      "if": {
+        "blocks": [
+          "#minecraft:small_flowers"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "visible_percent": 100,
+      "standins": [
+        {
+          "id": "minecraft:wither_rose",
+          "weight": 1
+        }
+      ],
+      "item": "minecraft:wither_rose",
+      "name": "Withered %s"
+    },
+    {
+      "_comment": "Two-high flowers: half become blackened stalks, the rest a wither rose at the base.",
+      "if": {
+        "blocks": [
+          "#minecraft:tall_flowers"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "visible_percent": 100,
+      "standins": [
+        {
+          "id": "minecraft:wither_rose",
+          "weight": 1
+        }
+      ],
+      "tall": {
+        "id": "withered_tall_flower",
+        "chance": 50
+      },
+      "item": "withered_tall_flower",
+      "name": "Withered %s"
+    },
+    {
+      "_comment": "Grass is dead and dying, not gone: 45% visible (plants.visible_percent).",
+      "if": {
+        "blocks": [
+          "minecraft:tall_grass",
+          "minecraft:large_fern"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "standins": [
+        {
+          "id": "dead_grass",
+          "weight": 60
+        },
+        {
+          "id": "dying_grass",
+          "weight": 40
+        }
+      ],
+      "tall": {
+        "id": "dead_tall_grass",
+        "chance": 70
+      },
+      "item": "dead_tall_grass",
+      "name": "Dead %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:short_grass"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "standins": [
+        {
+          "id": "dead_grass",
+          "weight": 50
+        },
+        {
+          "id": "dying_grass",
+          "weight": 35
+        },
+        {
+          "id": "minecraft:dead_bush",
+          "weight": 15
+        }
+      ],
+      "item": "dead_grass",
+      "name": "Dead %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:fern"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "standins": [
+        {
+          "id": "dead_fern",
+          "weight": 70
+        },
+        {
+          "id": "dead_grass",
+          "weight": 30
+        }
+      ],
+      "item": "dead_fern",
+      "name": "Dead %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:saplings",
+          "minecraft:sweet_berry_bush"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "visible_percent": 70,
+      "standins": [
+        {
+          "id": "minecraft:dead_bush",
+          "weight": 70
+        },
+        {
+          "id": "dead_fern",
+          "weight": 30
+        }
+      ],
+      "item": "minecraft:dead_bush",
+      "name": "Withered %s"
+    },
+    {
+      "_comment": "Farms still grow (real blocks), but every crop looks blighted.",
+      "if": {
+        "blocks": [
+          "#minecraft:crops"
+        ],
+        "not_blocks": [
+          "minecraft:pitcher_crop",
+          "minecraft:melon_stem",
+          "minecraft:pumpkin_stem"
+        ],
+        "occludes": false
+      },
+      "then": "swap",
+      "standin": "withered_crop",
+      "name": "Blighted %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:leaves"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "ghost_leaves",
+      "name": "Ghostly %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:logs"
+        ],
+        "full_cube": true,
+        "stripped": true,
+        "id_ends_with": [
+          "_wood",
+          "_hyphae",
+          "_bark"
+        ]
+      },
+      "then": "swap",
+      "standin": "gravewood_stripped",
+      "name": "Grave %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:logs"
+        ],
+        "full_cube": true,
+        "stripped": true
+      },
+      "then": "swap",
+      "standin": "gravewood_stripped_log",
+      "name": "Grave %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:logs"
+        ],
+        "full_cube": true,
+        "id_ends_with": [
+          "_wood",
+          "_hyphae",
+          "_bark"
+        ]
+      },
+      "then": "swap",
+      "standin": "gravewood",
+      "name": "Grave %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:logs"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "gravewood_log",
+      "name": "Grave %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:planks"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "grave_planks",
+      "name": "Grave %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:wooden_stairs"
+        ],
+        "class": "stairs"
+      },
+      "then": "swap",
+      "standin": "grave_stairs",
+      "name": "Grave %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:wooden_slabs"
+        ],
+        "class": "slab"
+      },
+      "then": "swap",
+      "standin": "grave_slab",
+      "name": "Grave %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:wooden_fences"
+        ],
+        "class": "fence"
+      },
+      "then": "swap",
+      "standin": "grave_fence",
+      "name": "Grave %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:grass_block"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "dead_grass_block",
+      "name": "Dead %s"
+    },
+    {
+      "_comment": "Same soil texture as the dead grass block's sides - stacked ground stays seamless.",
+      "if": {
+        "blocks": [
+          "#minecraft:dirt"
+        ],
+        "not_blocks": [
+          "minecraft:mycelium"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "grave_soil",
+      "name": "Grave %s"
+    },
+    {
+      "_comment": "FALLBACK (after every swap): trunks the swaps couldn't take - Dynamic Trees / Regions Unexplored branches, shaped or untagged modded logs. Real model kept, textures recoloured. Matches id ENDINGS so 'analog'/'logic' blocks are never caught; coral 'branch' blocks are excluded.",
+      "if": {
+        "id_ends_with": [
+          "_log",
+          "_wood",
+          "_bark",
+          "_hyphae",
+          "_branch",
+          "_branches"
+        ],
+        "not_id_contains": [
+          "coral",
+          "copycat"
+        ],
+        "not_namespaces": [
+          "framedblocks",
+          "copycats",
+          "create",
+          "chipped_framed"
+        ]
+      },
+      "then": "retexture",
+      "recolor": [
+        "gravewood_stripped",
+        "gravewood_bark",
+        "ghost_foliage"
+      ]
+    },
+    {
+      "_comment": "FALLBACK: foliage outside #leaves (hanging leaves, wisteria, modded needles).",
+      "if": {
+        "id_contains": [
+          "leaves",
+          "foliage",
+          "needles"
+        ],
+        "not_id_contains": [
+          "coral",
+          "copycat"
+        ],
+        "not_namespaces": [
+          "framedblocks",
+          "copycats",
+          "create",
+          "chipped_framed"
+        ]
+      },
+      "then": "retexture",
+      "recolor": [
+        "ghost_foliage"
+      ]
+    },
+    {
+      "_comment": "FALLBACK: modded woodwork that isn't tagged/classed as wooden. Loose id match on purpose: blocks whose model has no plank-looking textures are pruned automatically at build time (see the log's 'matched but had no mapped textures' count).",
+      "if": {
+        "id_contains": [
+          "planks",
+          "stairs",
+          "slab",
+          "fence",
+          "door",
+          "trapdoor",
+          "pressure_plate",
+          "button",
+          "crate",
+          "shelf"
+        ],
+        "not_namespaces": [
+          "framedblocks",
+          "copycats",
+          "create",
+          "chipped_framed"
+        ],
+        "not_id_contains": [
+          "copycat",
+          "crimson",
+          "warped"
+        ]
+      },
+      "then": "retexture",
+      "recolor": "grave_wood"
+    }
+  ]
+}

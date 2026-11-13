@@ -1,0 +1,9 @@
+{
+  "key.categories.wastelandvision": "Wasteland Vision",
+  "key.wastelandvision.toggle": "Toggle vision",
+  "key.wastelandvision.cycle": "Next vision",
+  "message.wastelandvision.on": "The veil lifts... (%s)",
+  "message.wastelandvision.off": "The illusion returns.",
+  "message.wastelandvision.selected": "Vision: %s",
+  "message.wastelandvision.locked": "The haze won't lift."
+}

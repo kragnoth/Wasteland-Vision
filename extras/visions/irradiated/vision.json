@@ -1,0 +1,210 @@
+{
+  "_readme": "Second example: a deliberately SMALLER vision. One stand-in covers all four log variants, planks/stairs are left alone, more plants stay visible, and it ships its own post shader.",
+  "name": "Irradiated",
+  "description": "Mutated green-black trees, ash ground and glowing weeds under a sickly sky.",
+  "standins": {
+    "mutated_log": {
+      "type": "pillar",
+      "textures": {
+        "side": "irradiated:block/mutated_log",
+        "end": "irradiated:block/mutated_log_top"
+      }
+    },
+    "mutated_leaves": {
+      "type": "leaves",
+      "textures": {
+        "all": "irradiated:block/mutated_leaves"
+      }
+    },
+    "ash_grass_block": {
+      "type": "cube_bottom_top",
+      "textures": {
+        "top": "irradiated:block/ash_grass_block_top",
+        "side": "irradiated:block/ash_grass_block_side",
+        "bottom": "irradiated:block/ash_dirt"
+      }
+    },
+    "ash_dirt": {
+      "type": "cube",
+      "textures": {
+        "all": "irradiated:block/ash_dirt"
+      }
+    },
+    "glowing_shrub": {
+      "type": "cross",
+      "textures": {
+        "cross": "irradiated:block/glowing_shrub"
+      }
+    },
+    "mutated_tall_grass": {
+      "type": "tall_cross",
+      "textures": {
+        "bottom": "irradiated:block/mutated_tall_grass_bottom",
+        "top": "irradiated:block/mutated_tall_grass_top"
+      }
+    }
+  },
+  "plants": {
+    "visible_percent": 35,
+    "hide_hidden_outlines": true
+  },
+  "hazards": {
+    "_comment": "Blocks a rule would hide but that can still hurt, slow or block you. Damaging ones (contact effects: berry bushes, wither roses, cobwebs, modded thorns - detected automatically) show 'marker' instead; solid or climbable ones (lily pads, moss carpet, vines) are never hidden. 'blocks' adds extra damaging ids/#tags, 'ignore' opts blocks out.",
+    "marker": "minecraft:wither_rose",
+    "blocks": [],
+    "ignore": []
+  },
+  "atmosphere": {
+    "grass": {
+      "color": "#7d8f3c",
+      "amount": 0.8
+    },
+    "foliage": {
+      "color": "#8fa83a",
+      "amount": 0.8
+    },
+    "water": {
+      "color": "#56702a",
+      "amount": 0.85,
+      "brightness": 0.85
+    },
+    "sky": {
+      "color": "#a3ad6b",
+      "amount": 0.8
+    },
+    "fog": {
+      "color": "#8f9a5a",
+      "amount": 0.8
+    },
+    "fog_distance": 96,
+    "post_shader": "irradiated:shaders/post/irradiated.json"
+  },
+  "rules": [
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:crimson_stems",
+          "#minecraft:warped_stems"
+        ]
+      },
+      "then": "keep"
+    },
+    {
+      "then": "native",
+      "template": "{namespace}:dead_{path}",
+      "name": "Irradiated %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:vine",
+          "minecraft:moss_carpet",
+          "minecraft:glow_lichen",
+          "minecraft:pink_petals"
+        ]
+      },
+      "then": "vanish",
+      "name": "Irradiated %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:small_flowers",
+          "#minecraft:saplings",
+          "minecraft:short_grass",
+          "minecraft:fern"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "standins": [
+        {
+          "id": "glowing_shrub",
+          "weight": 70
+        },
+        {
+          "id": "minecraft:dead_bush",
+          "weight": 30
+        }
+      ],
+      "item": "glowing_shrub",
+      "name": "Mutated %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:tall_flowers",
+          "minecraft:tall_grass",
+          "minecraft:large_fern"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "standins": [
+        {
+          "id": "glowing_shrub",
+          "weight": 70
+        },
+        {
+          "id": "minecraft:dead_bush",
+          "weight": 30
+        }
+      ],
+      "tall": {
+        "id": "mutated_tall_grass",
+        "chance": 80
+      },
+      "item": "mutated_tall_grass",
+      "name": "Mutated %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:leaves"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "mutated_leaves",
+      "name": "Mutated %s"
+    },
+    {
+      "_comment": "All four log variants -> one stand-in. Fine for a quick vision; see wasteland for the full split.",
+      "if": {
+        "blocks": [
+          "#minecraft:logs"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "mutated_log",
+      "name": "Mutated %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:grass_block",
+          "minecraft:podzol"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "ash_grass_block",
+      "name": "Ashen %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:dirt"
+        ],
+        "not_blocks": [
+          "minecraft:mycelium"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "ash_dirt",
+      "name": "Ashen %s"
+    }
+  ]
+}

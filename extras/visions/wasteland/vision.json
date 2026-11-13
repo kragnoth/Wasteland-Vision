@@ -1,0 +1,616 @@
+{
+  "_readme": "The Zone - S.T.A.L.K.E.R.: Call of Pripyat golden autumn. Reference vision for the 'recolour first' pattern: wood (logs, leaves, planks, doors...) is recoloured via recolor_sets so every vanilla AND modded species keeps its own look in the Zone palette; stand-ins are only used for ground and plants. The old dust-and-salt look lives on as 'dustbowl'.",
+  "name": "Wasteland",
+  "description": "The Zone: golden dead grass, autumn-sparse birches, Red Forest pines, overcast haze.",
+  "standins": {
+    "zone_turf": {
+      "type": "cube_bottom_top",
+      "textures": {
+        "top": "zone:block/zone_turf_top",
+        "side": "zone:block/zone_turf_side",
+        "bottom": "zone:block/zone_soil"
+      }
+    },
+    "zone_soil": {
+      "type": "cube",
+      "textures": {
+        "all": "zone:block/zone_soil"
+      }
+    },
+    "zone_mud": {
+      "type": "cube_bottom_top",
+      "textures": {
+        "top": "zone:block/zone_mud",
+        "side": "zone:block/zone_soil",
+        "bottom": "zone:block/zone_soil"
+      }
+    },
+    "dry_moss": {
+      "type": "cube",
+      "textures": {
+        "all": "zone:block/dry_moss"
+      }
+    },
+    "dry_moss_carpet": {
+      "type": "carpet",
+      "textures": {
+        "wool": "zone:block/dry_moss"
+      }
+    },
+    "golden_grass": {
+      "type": "cross",
+      "textures": {
+        "cross": "zone:block/golden_grass"
+      }
+    },
+    "olive_grass": {
+      "type": "cross",
+      "textures": {
+        "cross": "zone:block/olive_grass"
+      }
+    },
+    "seed_head": {
+      "type": "cross",
+      "textures": {
+        "cross": "zone:block/seed_head"
+      }
+    },
+    "rust_fern": {
+      "type": "cross",
+      "textures": {
+        "cross": "zone:block/rust_fern"
+      }
+    },
+    "golden_tall_grass": {
+      "type": "tall_cross",
+      "textures": {
+        "bottom": "zone:block/golden_tall_grass_bottom",
+        "top": "zone:block/golden_tall_grass_top"
+      }
+    }
+  },
+  "recolor_sets": {
+    "zone_stripped": {
+      "sprites": [
+        "*:block/stripped*"
+      ],
+      "palette": [
+        "#2c2821",
+        "#4a443a",
+        "#6e665a",
+        "#958b7c",
+        "#b4a997"
+      ],
+      "contrast": 0.6
+    },
+    "zone_birch_bark": {
+      "sprites": [
+        "*:block/*birch*",
+        "*:block/*aspen*"
+      ],
+      "palette": [
+        "#121212",
+        "#3d3d3a",
+        "#8c8a82",
+        "#bdbab0",
+        "#dcd8cc"
+      ],
+      "contrast": 0.9
+    },
+    "red_forest_bark": {
+      "sprites": [
+        "*:block/*spruce*",
+        "*:block/*pine*",
+        "*:block/*fir*",
+        "*:block/*redwood*",
+        "*:block/*hemlock*",
+        "*:block/*cedar*",
+        "*:block/*larch*",
+        "*:block/*cypress*"
+      ],
+      "palette": [
+        "#1a0e0a",
+        "#33190f",
+        "#4f2716",
+        "#6e3a1f",
+        "#8c4f2c"
+      ],
+      "contrast": 0.8
+    },
+    "zone_bark": {
+      "sprites": [
+        "*:block/*_log*",
+        "*:block/*_bark*",
+        "*:block/*_wood*",
+        "*:block/*_branch*",
+        "*:block/*_stem*",
+        "*:block/*/log/*"
+      ],
+      "palette": [
+        "#1b1915",
+        "#302c25",
+        "#4a443a",
+        "#675f51",
+        "#857c6a"
+      ],
+      "contrast": 0.7
+    },
+    "rust_foliage": {
+      "sprites": ["*:block/*spruce*leaves*", "*:block/*pine*leaves*", "*:block/*fir*leaves*", "*:block/*redwood*leaves*", "*:block/*hemlock*leaves*", "*:block/*cedar*leaves*", "*:block/*larch*leaves*", "*:block/*cypress*leaves*", "*:block/*needles*"],
+      "palettes": [
+        ["#3a1a0c", "#55260f", "#703814", "#8f5222", "#ad6a30"],
+        ["#3a2c1a", "#5a4426", "#7a5c34", "#987546", "#b28f5a"]
+      ],
+      "weights": [7, 3],
+      "clump": 4,
+      "knockout": 0.2,
+      "contrast": 0.8
+    },
+    "birch_foliage": {
+      "sprites": ["*:block/*birch*leaves*", "*:block/*aspen*leaves*"],
+      "palettes": [
+        ["#3d3210", "#5f4e14", "#9a7f1c", "#c9a52c", "#e8c64a"],
+        ["#3d1e0a", "#62300e", "#9a4c16", "#c86e22", "#e0913a"]
+      ],
+      "weights": [9, 1],
+      "clump": 4,
+      "knockout": 0.25,
+      "contrast": 0.8
+    },
+    "autumn_foliage": {
+      "sprites": ["*:block/*leaves*", "*:block/*foliage*"],
+      "palettes": [
+        ["#3d3210", "#5f4e14", "#9a7f1c", "#c9a52c", "#e8c64a"],
+        ["#3d1e0a", "#62300e", "#9a4c16", "#c86e22", "#e0913a"],
+        ["#3a2c1a", "#5a4426", "#7a5c34", "#987546", "#b28f5a"]
+      ],
+      "weights": [5, 3, 2],
+      "clump": 4,
+      "knockout": 0.25,
+      "contrast": 0.8
+    },
+    "weathered_wood": {
+      "sprites": [
+        "*:block/*planks*",
+        "*:block/*_door_top*",
+        "*:block/*_door_bottom*",
+        "*:block/*_trapdoor*"
+      ],
+      "palette": [
+        "#1c1b19",
+        "#33312d",
+        "#4f4c46",
+        "#6d6962",
+        "#8a857c"
+      ],
+      "contrast": 0.75,
+      "bias": 0.04
+    }
+  },
+  "plants": {
+    "visible_percent": 70,
+    "hide_hidden_outlines": true
+  },
+  "hazards": {
+    "_comment": "Blocks a rule would hide but that can still hurt, slow or block you. Damaging ones show 'marker'; solid or climbable ones are never hidden.",
+    "marker": "minecraft:wither_rose",
+    "blocks": [],
+    "ignore": []
+  },
+  "atmosphere": {
+    "grass": {
+      "color": "#a89a4e",
+      "amount": 0.75,
+      "brightness": 1.05
+    },
+    "foliage": {
+      "color": "#b08a3c",
+      "amount": 0.75,
+      "brightness": 1.0
+    },
+    "water": {
+      "color": "#4f5a3a",
+      "amount": 0.85,
+      "brightness": 0.85
+    },
+    "sky": {
+      "color": "#b8b49a",
+      "amount": 0.85
+    },
+    "fog": {
+      "color": "#b3ab8a",
+      "amount": 0.85
+    },
+    "fog_distance": 112,
+    "post_shader": "zone:shaders/post/zone.json"
+  },
+  "rules": [
+    {
+      "_comment": "The Nether keeps its fungus wood (stems, hyphae, planks, doors, everything crimson/warped).",
+      "if": {
+        "id_contains": [
+          "crimson",
+          "warped"
+        ]
+      },
+      "then": "keep"
+    },
+    {
+      "_comment": "Built-in dead forms (corals...).",
+      "then": "native",
+      "template": "{namespace}:dead_{path}",
+      "name": "Dead %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:pink_petals",
+          "minecraft:spore_blossom"
+        ]
+      },
+      "then": "vanish",
+      "name": "Withered %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:mangrove_propagule"
+        ],
+        "properties": {
+          "hanging": "true"
+        }
+      },
+      "then": "vanish",
+      "name": "Withered %s"
+    },
+    {
+      "_comment": "Overgrown, not barren: 70% of field plants stay visible as golden/olive grass and seed heads.",
+      "if": {
+        "blocks": [
+          "minecraft:short_grass"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "standins": [
+        {
+          "id": "golden_grass",
+          "weight": 55
+        },
+        {
+          "id": "olive_grass",
+          "weight": 30
+        },
+        {
+          "id": "minecraft:dead_bush",
+          "weight": 5
+        },
+        {
+          "id": "seed_head",
+          "weight": 10
+        }
+      ],
+      "item": "golden_grass",
+      "name": "Dry %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:tall_grass"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "standins": [
+        {
+          "id": "golden_grass",
+          "weight": 55
+        },
+        {
+          "id": "olive_grass",
+          "weight": 30
+        },
+        {
+          "id": "minecraft:dead_bush",
+          "weight": 5
+        },
+        {
+          "id": "seed_head",
+          "weight": 10
+        }
+      ],
+      "tall": {
+        "id": "golden_tall_grass",
+        "chance": 85
+      },
+      "item": "golden_tall_grass",
+      "name": "Dry %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:fern",
+          "minecraft:large_fern"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "standins": [
+        {
+          "id": "rust_fern",
+          "weight": 70
+        },
+        {
+          "id": "golden_grass",
+          "weight": 30
+        }
+      ],
+      "tall": {
+        "id": "golden_tall_grass",
+        "chance": 40
+      },
+      "item": "rust_fern",
+      "name": "Rusted %s"
+    },
+    {
+      "_comment": "Flowers have gone to seed (few survive in the Zone).",
+      "if": {
+        "blocks": [
+          "#minecraft:small_flowers",
+          "#minecraft:tall_flowers"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "visible_percent": 45,
+      "standins": [
+        {
+          "id": "seed_head",
+          "weight": 60
+        },
+        {
+          "id": "golden_grass",
+          "weight": 40
+        }
+      ],
+      "tall": {
+        "id": "golden_tall_grass",
+        "chance": 50
+      },
+      "item": "seed_head",
+      "name": "Seeded %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:saplings"
+        ],
+        "occludes": false
+      },
+      "then": "plant",
+      "visible_percent": 50,
+      "standins": [
+        {
+          "id": "minecraft:dead_bush",
+          "weight": 60
+        },
+        {
+          "id": "rust_fern",
+          "weight": 40
+        }
+      ],
+      "item": "minecraft:dead_bush",
+      "name": "Withered %s"
+    },
+    {
+      "_comment": "WOOD IS RECOLOURED, NOT SWAPPED: every vanilla and modded species keeps its own grain, rings and leaf shapes, just in the Zone palette. Recolour sets are tried in order: conifers rust (Red Forest), birches yellow, everything else mixed autumn. Leaf tint dropped (the twins are pre-coloured).",
+      "if": {
+        "blocks": [
+          "#minecraft:leaves"
+        ]
+      },
+      "then": "retexture",
+      "recolor": [
+        "rust_foliage",
+        "birch_foliage",
+        "autumn_foliage"
+      ],
+      "tint": "drop",
+      "name": "Autumn %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "#minecraft:logs"
+        ]
+      },
+      "then": "retexture",
+      "recolor": [
+        "zone_stripped",
+        "zone_birch_bark",
+        "red_forest_bark",
+        "zone_bark"
+      ],
+      "name": "Weathered %s"
+    },
+    {
+      "_comment": "Woodwork by tag: planks, stairs, slabs, fences, gates, doors, trapdoors, buttons, plates. (Signs are block-entity rendered: not covered.)",
+      "if": {
+        "blocks": [
+          "#minecraft:planks",
+          "#minecraft:wooden_stairs",
+          "#minecraft:wooden_slabs",
+          "#minecraft:wooden_fences",
+          "#minecraft:fence_gates",
+          "#minecraft:wooden_doors",
+          "#minecraft:wooden_trapdoors",
+          "#minecraft:wooden_buttons",
+          "#minecraft:wooden_pressure_plates"
+        ],
+        "not_id_contains": [
+          "copycat"
+        ],
+        "not_namespaces": [
+          "framedblocks",
+          "copycats",
+          "create",
+          "chipped_framed"
+        ]
+      },
+      "then": "retexture",
+      "recolor": "weathered_wood",
+      "name": "Weathered %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:moss_carpet"
+        ],
+        "class": "carpet"
+      },
+      "then": "swap",
+      "standin": "dry_moss_carpet",
+      "name": "Dry %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:moss_block"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "dry_moss",
+      "name": "Dry %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:grass_block"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "zone_turf",
+      "name": "Dry %s"
+    },
+    {
+      "if": {
+        "blocks": [
+          "minecraft:podzol",
+          "minecraft:coarse_dirt",
+          "minecraft:mud",
+          "minecraft:muddy_mangrove_roots"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "zone_mud",
+      "name": "Trampled %s"
+    },
+    {
+      "_comment": "Same soil texture as the turf's sides - stacked ground stays seamless.",
+      "if": {
+        "blocks": [
+          "#minecraft:dirt"
+        ],
+        "not_blocks": [
+          "minecraft:mycelium"
+        ],
+        "full_cube": true
+      },
+      "then": "swap",
+      "standin": "zone_soil",
+      "name": "Trampled %s"
+    },
+    {
+      "_comment": "FALLBACK: untagged trunks (branches, shaped/untagged modded logs).",
+      "if": {
+        "id_ends_with": [
+          "_log",
+          "_wood",
+          "_bark",
+          "_hyphae",
+          "_branch",
+          "_branches",
+          "_stem"
+        ],
+        "not_id_contains": [
+          "coral",
+          "copycat",
+          "mushroom",
+          "melon",
+          "pumpkin"
+        ],
+        "not_namespaces": [
+          "framedblocks",
+          "copycats",
+          "create",
+          "chipped_framed"
+        ]
+      },
+      "then": "retexture",
+      "recolor": [
+        "zone_stripped",
+        "zone_birch_bark",
+        "red_forest_bark",
+        "zone_bark"
+      ]
+    },
+    {
+      "_comment": "FALLBACK: foliage outside #leaves (hanging leaves, wisteria, modded needles).",
+      "if": {
+        "id_contains": [
+          "leaves",
+          "foliage",
+          "needles"
+        ],
+        "not_id_contains": [
+          "coral",
+          "copycat"
+        ],
+        "not_namespaces": [
+          "framedblocks",
+          "copycats",
+          "create",
+          "chipped_framed"
+        ]
+      },
+      "then": "retexture",
+      "recolor": [
+        "rust_foliage",
+        "birch_foliage",
+        "autumn_foliage"
+      ],
+      "tint": "drop"
+    },
+    {
+      "_comment": "FALLBACK: untagged woodwork (Chipped/Rechiseled variants, crates, shelves). Blocks without plank textures are pruned automatically.",
+      "if": {
+        "id_contains": [
+          "planks",
+          "stairs",
+          "slab",
+          "fence",
+          "door",
+          "trapdoor",
+          "pressure_plate",
+          "button",
+          "crate",
+          "shelf"
+        ],
+        "not_id_contains": [
+          "copycat"
+        ],
+        "not_namespaces": [
+          "framedblocks",
+          "copycats",
+          "create",
+          "chipped_framed"
+        ]
+      },
+      "then": "retexture",
+      "recolor": "weathered_wood"
+    }
+  ]
+}
