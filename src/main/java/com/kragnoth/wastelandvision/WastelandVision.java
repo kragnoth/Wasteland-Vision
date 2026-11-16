@@ -16,6 +16,8 @@ public final class WastelandVision {
         // Reads config/wastelandvision/visions/*/vision.json and registers every declared stand-in
         // block (hidden, no creative tab). Same on client and server -> registries stay in sync.
         VisionManager.init(modBus);
+        WVItems.init(modBus);
+        com.kragnoth.wastelandvision.net.VisionServer.init(modBus);
         container.registerConfig(ModConfig.Type.CLIENT, WVConfig.SPEC);
         container.registerConfig(ModConfig.Type.SERVER, WVServerConfig.SPEC);
 

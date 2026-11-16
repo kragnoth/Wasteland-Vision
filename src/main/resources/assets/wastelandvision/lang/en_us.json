@@ -5,5 +5,8 @@
   "message.wastelandvision.on": "The veil lifts... (%s)",
   "message.wastelandvision.off": "The illusion returns.",
   "message.wastelandvision.selected": "Vision: %s",
-  "message.wastelandvision.locked": "The haze won't lift."
+  "message.wastelandvision.locked": "The haze won't lift.",
+  "item.wastelandvision.vision_lens": "Seer's Lens",
+  "message.wastelandvision.needs_key": "You need a lens to see %s.",
+  "message.wastelandvision.key_removed": "Without the lens, the world settles."
 }

@@ -1,4 +1,4 @@
-# Wasteland Vision (v0.23.2) - NeoForge 1.21.1
+# Wasteland Vision (v0.24.0) - NeoForge 1.21.1
 
 **How to make visions: [docs/Making-Visions.md](docs/Making-Visions.md)**
 
@@ -29,6 +29,22 @@ Visions live in `config/wastelandvision/visions/<id>/`. The bundled vision is **
 - Render hooks: `BlockModelShaperMixin` -> `WastelandModel` wrapper only for remapped states, while active,
   and only for world meshers (see below); `ItemRendererMixin` icons; `ItemStackMixin` names (render thread only);
   `BlockStateBaseMixin` empty outlines for vanished blocks; Jade + JEI plugins.
+
+## 0.24.0 - The server knows who sees what; per-player locks; key items; revealed text
+- **Server-side state.** Clients report their vision to the server (an optional channel: vanilla clients and servers
+  still connect). Each player carries the scoreboard tag `wv_<vision>` while that vision is on, so loot conditions
+  (`entity_properties` with `{"nbt": "{Tags:[\"wv_occult_foundry\"]}"}`), advancements, quests, `@a[tag=...]` and
+  other mods can test it. Tags are cleared on login/logout. The vision is still client-side; the tag is what the client reports.
+- **Per-player lock.** `/wastelandvision lock <players> <vision>`, `/wastelandvision unlock <players>`,
+  `/wastelandvision status <player>` (op 2). The lock is saved on the player (survives death and relog) and works like
+  `forceVision` for just that player (same creative/op bypass). It wins over `forceVision`.
+- **Key items.** `"key_item": "wastelandvision:vision_lens"` (or `"#tag"`) in a vision.json: that vision can only be
+  switched on while the item is worn on the head or held, and switches off if it's taken away. Locked or bypassing
+  players don't need it. New item: the **Seer's Lens** (`wastelandvision:vision_lens`, head slot; no recipe - packs add one).
+- **Revealed text.** A vision folder may hold `reveal/<lang>.json` (falls back to `reveal/en_us.json`): translation key ->
+  text. While that vision is on, those keys read as the revealed text everywhere (books, signs, item names, tooltips).
+  Give a book page `{"translate": "pack.journal.page3", "fallback": "<scrambled text>"}` and it reads scrambled until
+  the vision shows the truth.
 
 ## 0.23.3 - ghost broadcasts, auto-versioning
 

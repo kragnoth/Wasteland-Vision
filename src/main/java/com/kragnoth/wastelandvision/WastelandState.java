@@ -6,6 +6,8 @@ package com.kragnoth.wastelandvision;
  */
 public final class WastelandState {
     public static volatile boolean active = false;
+    /** Per-player lock sent by the server (/wastelandvision lock); "" = none. Reset on logout. */
+    public static volatile String serverLock = "";
     /** Folder id of the vision currently compiled into SubstitutionTable. */
     public static volatile String visionId = "";
     public static volatile int visiblePlantPercent = 20;

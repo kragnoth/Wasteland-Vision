@@ -90,7 +90,10 @@ public final class WastelandClient {
     @Nullable
     public static String forcedVisionId() {
         Minecraft mc = Minecraft.getInstance();
-        if (mc.level == null || !WVServerConfig.SPEC.isLoaded()) return null;
+        if (mc.level == null) return null;
+        String perPlayer = WastelandState.serverLock;
+        if (perPlayer != null && !perPlayer.isEmpty()) return perPlayer;
+        if (!WVServerConfig.SPEC.isLoaded()) return null;
         try {
             return WVServerConfig.FORCE_VISION.get() ? WVServerConfig.FORCED_VISION.get() : null;
         } catch (IllegalStateException e) {
@@ -175,6 +178,7 @@ public final class WastelandClient {
         GroveAmbience.load(v.json().has("ambience") ? v.json().getAsJsonObject("ambience") : null);
         SmokeColumns.load(v.json().has("smoke_columns") ? v.json().getAsJsonObject("smoke_columns") : null);
         SkyOmens.load(v.json().has("sky_omens") ? v.json().getAsJsonObject("sky_omens") : null);
+        RevealLanguage.load(v);
         return true;
     }
 
@@ -192,6 +196,8 @@ public final class WastelandClient {
     }
 
     private static void onLoggingOut(ClientPlayerNetworkEvent.LoggingOut event) {
+        WastelandState.serverLock = "";
+        lastSentActive = null;
         failedShaders.clear();
         lockWarned = false;
     }
@@ -210,12 +216,77 @@ public final class WastelandClient {
                 if (compileSelected() && WastelandState.active) mc.levelRenderer.allChanged();
             }
             maintainShader(mc);
+            enforceKeyItem(mc);
+            reportState(mc);
         }
+        RevealLanguage.maintain();
+    }
+
+    // ------------------------------------------------------------------ server sync + key item
+
+    private static Boolean lastSentActive = null;
+    private static String lastSentVision = "";
+
+    /** Tells the server (if it has Wasteland Vision) whenever the vision goes on/off or changes, so it can tag the player. */
+    private static void reportState(Minecraft mc) {
+        var conn = mc.getConnection();
+        if (conn == null || !conn.hasChannel(com.kragnoth.wastelandvision.net.VisionStatePayload.TYPE)) return;
+        boolean on = WastelandState.active;
+        String id = on ? WastelandState.visionId : "";
+        if (lastSentActive != null && lastSentActive == on && lastSentVision.equals(id)) return;
+        lastSentActive = on;
+        lastSentVision = id;
+        net.neoforged.neoforge.network.PacketDistributor.sendToServer(new com.kragnoth.wastelandvision.net.VisionStatePayload(on, id));
+    }
+
+    /** The vision's "key_item" (item id or #tag) worn on the head or held; null = the vision needs no key. */
+    @Nullable
+    private static String keyItem(@Nullable Vision v) {
+        if (v == null || !v.json().has("key_item")) return null;
+        String k = v.json().get("key_item").getAsString().trim();
+        return k.isEmpty() ? null : k;
+    }
+
+    private static boolean hasKey(Minecraft mc, String key) {
+        if (mc.player == null) return false;
+        net.minecraft.world.item.ItemStack[] worn = {mc.player.getMainHandItem(), mc.player.getOffhandItem(),
+                mc.player.getItemBySlot(net.minecraft.world.entity.EquipmentSlot.HEAD)};
+        for (var st : worn) {
+            if (st.isEmpty()) continue;
+            if (key.startsWith("#")) {
+                var tag = net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, ResourceLocation.parse(key.substring(1)));
+                if (st.is(tag)) return true;
+            } else if (net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(st.getItem()).toString().equals(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** May this player switch the selected vision on right now? (locked/bypassing players always may) */
+    private static boolean keyAllows(Minecraft mc) {
+        if (locked(mc) || canBypassLock(mc)) return true;
+        String key = keyItem(selectedVision());
+        return key == null || hasKey(mc, key);
+    }
+
+    /** A free (unlocked) player who takes the key off loses the vision. */
+    private static void enforceKeyItem(Minecraft mc) {
+        if (!WastelandState.active || keyAllows(mc)) return;
+        WastelandState.active = false;
+        mc.levelRenderer.allChanged();
+        if (mc.player != null) mc.player.displayClientMessage(Component.translatable("message.wastelandvision.key_removed"), true);
     }
 
     public static void toggle(Minecraft mc) {
         if (locked(mc)) {
             if (mc.player != null) mc.player.displayClientMessage(Component.translatable("message.wastelandvision.locked"), true);
+            return;
+        }
+        if (!WastelandState.active && !keyAllows(mc)) {
+            Vision v = selectedVision();
+            if (mc.player != null) mc.player.displayClientMessage(Component.translatable("message.wastelandvision.needs_key",
+                    v != null ? v.displayName() : "?"), true);
             return;
         }
         WastelandState.active = !WastelandState.active;
