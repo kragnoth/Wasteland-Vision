@@ -1,4 +1,4 @@
-# Wasteland Vision (v0.24.1) - NeoForge 1.21.1
+# Wasteland Vision (v0.24.2) - NeoForge 1.21.1
 
 **How to make visions: [docs/Making-Visions.md](docs/Making-Visions.md)**
 
@@ -30,6 +30,11 @@ Visions live in `config/wastelandvision/visions/<id>/`. The bundled vision is **
   and only for world meshers (see below); `ItemRendererMixin` icons; `ItemStackMixin` names (render thread only);
   `BlockStateBaseMixin` empty outlines for vanished blocks; Jade + JEI plugins.
 
+## 0.24.2 - Nothing hardcoded
+- The built-in Seer's Lens (0.24.0) is gone: the mod registers no items or blocks of its own. Packs declare their own items in
+  vision.json (0.24.1). A pack with no stand-ins and no items adds nothing to the registries, so the mod can stay client-only
+  on servers that don't have it (the server features - tags, locks - just aren't there).
+
 ## 0.24.1 - Vision items from JSON
 A vision.json may declare its own items, registered at startup like stand-ins (so adding or renaming one needs a restart):
 ```json
@@ -56,9 +61,9 @@ A vision.json may declare its own items, registered at startup like stand-ins (s
 - **Per-player lock.** `/wastelandvision lock <players> <vision>`, `/wastelandvision unlock <players>`,
   `/wastelandvision status <player>` (op 2). The lock is saved on the player (survives death and relog) and works like
   `forceVision` for just that player (same creative/op bypass). It wins over `forceVision`.
-- **Key items.** `"key_item": "wastelandvision:vision_lens"` (or `"#tag"`) in a vision.json: that vision can only be
+- **Key items.** `"key_item": "minecraft:spyglass"` (any item id, or `"#tag"`) in a vision.json: that vision can only be
   switched on while the item is worn on the head or held, and switches off if it's taken away. Locked or bypassing
-  players don't need it. New item: the **Seer's Lens** (`wastelandvision:vision_lens`, head slot; no recipe - packs add one).
+  players don't need it. Keys are optional: a vision with no `key_item` and no `"key": true` item toggles freely.
 - **Revealed text.** A vision folder may hold `reveal/<lang>.json` (falls back to `reveal/en_us.json`): translation key ->
   text. While that vision is on, those keys read as the revealed text everywhere (books, signs, item names, tooltips).
   Give a book page `{"translate": "pack.journal.page3", "fallback": "<scrambled text>"}` and it reads scrambled until
