@@ -104,7 +104,7 @@ public final class VisionManager {
         }
         String name = obj.has("name") ? obj.get("name").getAsString() : old.id();
         String desc = obj.has("description") ? obj.get("description").getAsString() : "";
-        Vision v = new Vision(old.id(), name, desc, old.folder(), obj, old.standins());
+        Vision v = new Vision(old.id(), name, desc, old.folder(), obj, old.standins(), old.items());
         VISIONS.put(old.id(), v);
         LOGGER.info("Wasteland Vision: reloaded vision.json for '{}'", old.id());
         return v;
@@ -120,6 +120,13 @@ public final class VisionManager {
     /** The error from the most recent failed {@link #reload}, or null if it succeeded. */
     public static String lastReloadError() {
         return lastReloadError;
+    }
+
+    /** Items declared in vision.json "items" blocks (for creative tabs). */
+    public static List<Item> allVisionItems() {
+        List<Item> out = new ArrayList<>();
+        for (Vision v : VISIONS.values()) for (VisionItem i : v.items().values()) out.add(i.item().get());
+        return out;
     }
 
     public static List<Item> allStandInItems() {
@@ -193,7 +200,50 @@ public final class VisionManager {
                 standins.put(sName, new StandIn(id, sName, type, textures, custom, block, item));
             }
         }
-        return new Vision(id, name, desc, folder, obj, Collections.unmodifiableMap(standins));
+        Map<String, VisionItem> items = new LinkedHashMap<>();
+        if (obj.has("items")) {
+            for (Map.Entry<String, JsonElement> e : obj.getAsJsonObject("items").entrySet()) {
+                String iName = e.getKey();
+                if (!ID.matcher(iName).matches()) {
+                    LOGGER.error("Wasteland Vision: [{}] item name '{}' must be lowercase [a-z0-9_.-] - skipped", id, iName);
+                    continue;
+                }
+                JsonObject def = e.getValue().getAsJsonObject();
+                String display = def.has("name") ? def.get("name").getAsString() : null;
+                String texture = def.has("texture") ? def.get("texture").getAsString() : WastelandVision.MODID + ":item/" + id + "/" + iName;
+                boolean key = def.has("key") && def.get("key").getAsBoolean();
+                int stack = def.has("stack_size") ? Math.max(1, Math.min(99, def.get("stack_size").getAsInt())) : 1;
+                net.minecraft.world.item.Rarity rarity = net.minecraft.world.item.Rarity.COMMON;
+                if (def.has("rarity")) {
+                    try {
+                        rarity = net.minecraft.world.item.Rarity.valueOf(def.get("rarity").getAsString().toUpperCase(java.util.Locale.ROOT));
+                    } catch (IllegalArgumentException ex) {
+                        LOGGER.error("Wasteland Vision: [{}] item '{}': rarity is common/uncommon/rare/epic", id, iName);
+                    }
+                }
+                net.minecraft.world.entity.EquipmentSlot slot = null;
+                if (def.has("slot")) {
+                    String sl = def.get("slot").getAsString().toLowerCase(java.util.Locale.ROOT);
+                    slot = switch (sl) {
+                        case "head" -> net.minecraft.world.entity.EquipmentSlot.HEAD;
+                        case "chest" -> net.minecraft.world.entity.EquipmentSlot.CHEST;
+                        case "legs" -> net.minecraft.world.entity.EquipmentSlot.LEGS;
+                        case "feet" -> net.minecraft.world.entity.EquipmentSlot.FEET;
+                        default -> null;
+                    };
+                    if (slot == null && !sl.equals("none")) LOGGER.error("Wasteland Vision: [{}] item '{}': slot is head/chest/legs/feet/none", id, iName);
+                }
+                net.minecraft.world.item.Item.Properties props = new net.minecraft.world.item.Item.Properties().stacksTo(stack).rarity(rarity);
+                if (def.has("glint") && def.get("glint").getAsBoolean())
+                    props = props.component(net.minecraft.core.component.DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
+                final net.minecraft.world.item.Item.Properties fp = props;
+                final net.minecraft.world.entity.EquipmentSlot fs = slot;
+                DeferredItem<net.minecraft.world.item.Item> item = ITEMS.register(id + "/" + iName,
+                        () -> fs == null ? new VisionItem.Plain(fp, display) : new VisionItem.Wearable(fp, display, fs));
+                items.put(iName, new VisionItem(id, iName, display, texture, key, item));
+            }
+        }
+        return new Vision(id, name, desc, folder, obj, Collections.unmodifiableMap(standins), Collections.unmodifiableMap(items));
     }
 
     /** Each vision folder is also mounted as a resource pack, which needs a pack.mcmeta. */

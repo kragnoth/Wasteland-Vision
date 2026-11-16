@@ -1,4 +1,4 @@
-# Wasteland Vision (v0.24.0) - NeoForge 1.21.1
+# Wasteland Vision (v0.24.1) - NeoForge 1.21.1
 
 **How to make visions: [docs/Making-Visions.md](docs/Making-Visions.md)**
 
@@ -29,6 +29,24 @@ Visions live in `config/wastelandvision/visions/<id>/`. The bundled vision is **
 - Render hooks: `BlockModelShaperMixin` -> `WastelandModel` wrapper only for remapped states, while active,
   and only for world meshers (see below); `ItemRendererMixin` icons; `ItemStackMixin` names (render thread only);
   `BlockStateBaseMixin` empty outlines for vanished blocks; Jade + JEI plugins.
+
+## 0.24.1 - Vision items from JSON
+A vision.json may declare its own items, registered at startup like stand-ins (so adding or renaming one needs a restart):
+```json
+"items": {
+  "foundry_lens": { "name": "Foundry Lens", "slot": "head", "key": true, "rarity": "rare",
+                    "texture": "wastelandvision:item/occult_foundry/foundry_lens" }
+}
+```
+- Registered as `wastelandvision:<vision>/<name>` (here `wastelandvision:occult_foundry/foundry_lens`), listed in the Tools tab.
+- `texture` defaults to `wastelandvision:item/<vision>/<name>`; put the PNG in the vision folder's own
+  `assets/wastelandvision/textures/item/<vision>/<name>.png` (the folder is mounted as a resource pack). The item model is generated.
+- `name` is the default display name (a lang key `item.wastelandvision.<vision>.<name>` still wins).
+- `slot`: `head`, `chest`, `legs`, `feet` (right-click to wear) or `none` (default). `stack_size` (default 1), `rarity`
+  (`common`/`uncommon`/`rare`/`epic`), `glint`.
+- `"key": true` makes it a key for its own vision, alongside any `"key_item"`: the vision can only be switched on while a key
+  is worn on the head or held.
+- No recipes: add them with a datapack, like any other item.
 
 ## 0.24.0 - The server knows who sees what; per-player locks; key items; revealed text
 - **Server-side state.** Clients report their vision to the server (an optional channel: vanilla clients and servers

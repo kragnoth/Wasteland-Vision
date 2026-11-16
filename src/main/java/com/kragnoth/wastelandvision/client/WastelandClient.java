@@ -1,5 +1,7 @@
 package com.kragnoth.wastelandvision.client;
 
+import com.kragnoth.wastelandvision.WastelandVision;
+
 import com.kragnoth.wastelandvision.Atmosphere;
 import com.kragnoth.wastelandvision.ColorGrade;
 import com.kragnoth.wastelandvision.WVConfig;
@@ -266,8 +268,14 @@ public final class WastelandClient {
     /** May this player switch the selected vision on right now? (locked/bypassing players always may) */
     private static boolean keyAllows(Minecraft mc) {
         if (locked(mc) || canBypassLock(mc)) return true;
-        String key = keyItem(selectedVision());
-        return key == null || hasKey(mc, key);
+        Vision v = selectedVision();
+        String key = keyItem(v);
+        java.util.List<String> keys = new java.util.ArrayList<>();
+        if (key != null) keys.add(key);
+        if (v != null) for (var i : v.items().values()) if (i.key()) keys.add(WastelandVision.MODID + ":" + i.path());
+        if (keys.isEmpty()) return true;
+        for (String k : keys) if (hasKey(mc, k)) return true;
+        return false;
     }
 
     /** A free (unlocked) player who takes the key off loses the vision. */

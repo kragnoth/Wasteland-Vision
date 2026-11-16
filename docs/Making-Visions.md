@@ -500,3 +500,10 @@ Generators used by the bundled visions (examples of building a vision from scrip
   wall_torch, lantern, campfire, fire, sand), `{namespace}:cracked_{path}` (stone/deepslate/nether/
   blackstone bricks, deepslate tiles), `{namespace}:oxidized_{path}` (copper family),
   `{namespace}:dead_{path}` (corals), `{namespace}:{path}` + `"path_replace": {"mossy_": ""}`.
+
+
+## Keys, items and revealed text (0.24+)
+- `"key_item": "minecraft:spyglass"` or `"#c:gems"`: the vision only switches on while that item is worn on the head or held.
+- `"items": {...}`: declare your own items (lenses, charms, keys) - see the README's 0.24.1 notes. `"key": true` makes one a key.
+- `reveal/<lang>.json` in the vision folder: translation keys that read as different text only while the vision is on.
+- Server side: players carry the tag `wv_<vision>` while it's on; `/wastelandvision lock <players> <vision>` / `unlock` / `status`.

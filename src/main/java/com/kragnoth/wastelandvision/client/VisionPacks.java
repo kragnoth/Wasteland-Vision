@@ -80,6 +80,10 @@ public final class VisionPacks {
         write(root.resolve("assets/minecraft/atlases/blocks.json"),
                 "{\"sources\":[{\"type\":\"" + RecolorSource.ID + "\"}]}");
         for (Vision v : VisionManager.all()) {
+            for (com.kragnoth.wastelandvision.vision.VisionItem i : v.items().values()) {
+                Path assets = root.resolve("assets").resolve(WastelandVision.MODID);
+                generatedItem(assets, i.path(), i.texture());
+            }
             for (StandIn s : v.standins().values()) {
                 if (s.custom()) continue;
                 try {

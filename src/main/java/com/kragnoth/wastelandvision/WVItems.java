@@ -15,7 +15,10 @@ public final class WVItems {
     public static void init(IEventBus modBus) {
         ITEMS.register(modBus);
         modBus.addListener(BuildCreativeModeTabContentsEvent.class, e -> {
-            if (e.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) e.accept(VISION_LENS.get());
+            if (e.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+                e.accept(VISION_LENS.get());
+                com.kragnoth.wastelandvision.vision.VisionManager.allVisionItems().forEach(e::accept);
+            }
         });
     }
 

@@ -10,5 +10,5 @@ import java.util.Map;
  * because rules reference tags, which only exist once a world is loaded.
  */
 public record Vision(String id, String displayName, String description, Path folder, JsonObject json,
-                     Map<String, StandIn> standins) {
+                     Map<String, StandIn> standins, Map<String, VisionItem> items) {
 }
