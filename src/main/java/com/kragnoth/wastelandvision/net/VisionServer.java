@@ -37,8 +37,10 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
  */
 public final class VisionServer {
     public static final String TAG_PREFIX = "wv_";
+    public static final String RELEASED = "*";
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENTS = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, WastelandVision.MODID);
-    /** Vision this player is locked into ("" = none). Survives death and relog. */
+    /** Per-player override, saved on the player (survives death and relog): "" = follow the server config (forceVision),
+     *  "<vision>" = locked into that vision, RELEASED = free even while forceVision is on. */
     public static final Supplier<AttachmentType<String>> LOCK = ATTACHMENTS.register("lock",
             () -> AttachmentType.builder(() -> "").serialize(Codec.STRING).copyOnDeath().build());
 
@@ -106,6 +108,8 @@ public final class VisionServer {
                                 .executes(c -> lockCmd(c, EntityArgument.getPlayers(c, "targets"), StringArgumentType.getString(c, "vision"))))))
                 .then(Commands.literal("unlock").then(Commands.argument("targets", EntityArgument.players())
                         .executes(c -> lockCmd(c, EntityArgument.getPlayers(c, "targets"), ""))))
+                .then(Commands.literal("release").then(Commands.argument("targets", EntityArgument.players())
+                        .executes(c -> lockCmd(c, EntityArgument.getPlayers(c, "targets"), RELEASED))))
                 .then(Commands.literal("status").then(Commands.argument("target", EntityArgument.player())
                         .executes(VisionServer::status))));
     }
@@ -113,8 +117,9 @@ public final class VisionServer {
     private static int lockCmd(CommandContext<CommandSourceStack> c, Collection<ServerPlayer> targets, String vision) {
         for (ServerPlayer sp : targets) lock(sp, vision);
         int n = targets.size();
-        c.getSource().sendSuccess(() -> Component.literal(vision.isEmpty()
-                ? "Unlocked " + n + " player(s)" : "Locked " + n + " player(s) into '" + vision + "'"), true);
+        c.getSource().sendSuccess(() -> Component.literal(vision.isEmpty() ? "Unlocked " + n + " player(s) (server config applies)"
+                : vision.equals(RELEASED) ? "Released " + n + " player(s) (free even under forceVision)"
+                : "Locked " + n + " player(s) into '" + vision + "'"), true);
         return n;
     }
 
@@ -123,7 +128,7 @@ public final class VisionServer {
         String seeing = sp.getTags().stream().filter(t -> t.startsWith(TAG_PREFIX)).findFirst().orElse("nothing (or no Wasteland Vision on the client)");
         String lock = sp.getData(LOCK);
         c.getSource().sendSuccess(() -> Component.literal(sp.getGameProfile().getName() + ": sees " + seeing
-                + ", lock: " + (lock.isEmpty() ? "none" : lock)), false);
+                + ", lock: " + (lock.isEmpty() ? "none (server config)" : lock.equals(RELEASED) ? "released" : lock)), false);
         return 1;
     }
 }

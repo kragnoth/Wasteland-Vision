@@ -94,6 +94,7 @@ public final class WastelandClient {
         Minecraft mc = Minecraft.getInstance();
         if (mc.level == null) return null;
         String perPlayer = WastelandState.serverLock;
+        if ("*".equals(perPlayer)) return null;                     // released: free even under forceVision
         if (perPlayer != null && !perPlayer.isEmpty()) return perPlayer;
         if (!WVServerConfig.SPEC.isLoaded()) return null;
         try {

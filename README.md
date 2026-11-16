@@ -1,4 +1,4 @@
-# Wasteland Vision (v0.24.2) - NeoForge 1.21.1
+# Wasteland Vision (v0.24.3) - NeoForge 1.21.1
 
 **How to make visions: [docs/Making-Visions.md](docs/Making-Visions.md)**
 
@@ -29,6 +29,11 @@ Visions live in `config/wastelandvision/visions/<id>/`. The bundled vision is **
 - Render hooks: `BlockModelShaperMixin` -> `WastelandModel` wrapper only for remapped states, while active,
   and only for world meshers (see below); `ItemRendererMixin` icons; `ItemStackMixin` names (render thread only);
   `BlockStateBaseMixin` empty outlines for vanished blocks; Jade + JEI plugins.
+
+## 0.24.3 - Release
+- `/wastelandvision release <players>`: frees those players even while `forceVision` is on (saved on the player).
+  `unlock` puts them back under the server config; `lock` locks them into a vision. Use it for "everyone starts in the vision,
+  a quest frees you": forceVision on, then `release` when they earn it.
 
 ## 0.24.2 - Nothing hardcoded
 - The built-in Seer's Lens (0.24.0) is gone: the mod registers no items or blocks of its own. Packs declare their own items in
