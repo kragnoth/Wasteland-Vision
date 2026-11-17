@@ -50,4 +50,15 @@ public abstract class ClientLevelMixin {
         double[] g = ColorGrade.apply(c.x, c.y, c.z, t);
         cir.setReturnValue(new Vec3(g[0], g[1], g[2]));
     }
+
+    /** Entity ticking (player movement, entityInside callbacks) sees real block shapes - see BlockStateBaseMixin. */
+    @Inject(method = "tickEntities", at = @At("HEAD"))
+    private void wastelandvision$realShapesOn(CallbackInfo ci) {
+        WastelandState.realShapes = true;
+    }
+
+    @Inject(method = "tickEntities", at = @At("RETURN"))
+    private void wastelandvision$realShapesOff(CallbackInfo ci) {
+        WastelandState.realShapes = false;
+    }
 }

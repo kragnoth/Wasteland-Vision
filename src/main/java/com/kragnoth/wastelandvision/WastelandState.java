@@ -12,6 +12,11 @@ public final class WastelandState {
     public static volatile String visionId = "";
     public static volatile int visiblePlantPercent = 20;
     public static volatile boolean hidePlantOutlines = true;
+    /**
+     * True while the client level ticks entities (the local player's movement, vehicles): block logic run there
+     * (entityInside, collision callbacks) must see real shapes. Render-thread only; failing "on" means vanilla shapes.
+     */
+    public static boolean realShapes = false;
 
     /**
      * OPT-IN hallucination. Block models are only swapped while the current thread is inside a known

@@ -20,6 +20,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * Plants/blocks the player can't "see" get an empty OUTLINE shape on the render thread only: crosshair
  * picking, the block outline and Jade/WTHIT raycasts pass through them. Collision shapes and anything
  * on the server thread (integrated server included) are untouched.
+ *
+ * 0.24.4: not while the client ticks entities ({@link WastelandState#realShapes}). The local player's movement runs
+ * on the render thread too, and block code called from it (e.g. Atmospheric's yucca entityInside reads
+ * getShape(...).bounds()) crashes on an empty shape ("No bounds for empty shape").
  */
 @Mixin(BlockBehaviour.BlockStateBase.class)
 public abstract class BlockStateBaseMixin {
@@ -28,7 +32,7 @@ public abstract class BlockStateBaseMixin {
             at = @At("HEAD"), cancellable = true)
     private void wastelandvision$hidePlantOutline(BlockGetter level, BlockPos pos, CollisionContext context,
                                                   CallbackInfoReturnable<VoxelShape> cir) {
-        if (!WastelandState.active || !WastelandState.hidePlantOutlines || SubstitutionTable.rebuilding) return;
+        if (!WastelandState.active || !WastelandState.hidePlantOutlines || WastelandState.realShapes || SubstitutionTable.rebuilding) return;
         BlockState self = (BlockState) (Object) this;
         byte kind = SubstitutionTable.plantKind(self);
         if (kind != PlantHallucination.NONE) {
