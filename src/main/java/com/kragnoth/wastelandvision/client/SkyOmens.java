@@ -18,6 +18,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import org.joml.Matrix4f;
@@ -55,6 +56,11 @@ public final class SkyOmens {
     private static int blackStars = 110;
     private static boolean secondMoon = true, eclipseSurge = true, eclipseMusic = true;
     private static float eclipseSeconds = 150, eclipseDarken = 0.72F;
+    /** sky_omens.surface_only (default true): the screen tint, ghost surge and grove ambience fade out where you can't see the sky. */
+    private static boolean surfaceOnly = true;
+    /** 0 = no sky overhead (cave), 1 = open sky. Smoothed so walking into a cave fades instead of snapping. */
+    private static float exposure = 1F;
+    private static long lastExposureNanos;
 
     /** Read by GroveAmbience: 0..1 extra "you are in a grove" depth while an eclipse is total. */
     public static volatile float ambienceOverride;
@@ -80,6 +86,8 @@ public final class SkyOmens {
             }
         }
         smogChance = twinChance = eclipseChance = 0;
+        surfaceOnly = !o.has("surface_only") || o.get("surface_only").getAsBoolean();
+        exposure = 1F;
         if (o.has("smog_sun")) {
             JsonObject s = o.getAsJsonObject("smog_sun");
             smogChance = f(s, "chance", 0.3F);
@@ -149,6 +157,18 @@ public final class SkyOmens {
         return (float) ((1 - p) / 0.4);
     }
 
+    /** Update the smoothed sky exposure from the sky light at the camera (called once per frame). */
+    private static void updateExposure(ClientLevel level) {
+        long now = System.nanoTime();
+        float dt = lastExposureNanos == 0 ? 1F : Mth.clamp((now - lastExposureNanos) / 1.0e9F, 0F, 1F);
+        lastExposureNanos = now;
+        if (!surfaceOnly) { exposure = 1F; return; }
+        net.minecraft.core.BlockPos pos = Minecraft.getInstance().gameRenderer.getMainCamera().getBlockPosition();
+        int sky = level.getBrightness(LightLayer.SKY, pos);            // 0-15, raw (independent of time of day)
+        float target = Mth.clamp((sky - 3) / 10F, 0F, 1F);             // a bit forgiving: shade under trees still counts
+        exposure += (target - exposure) * Mth.clamp(dt * 2.5F, 0F, 1F); // ~1s fade
+    }
+
     // ---- render: over the sky -------------------------------------------------------------------------
     public static void onRenderStage(RenderLevelStageEvent event) {
         if (!enabled || !WastelandState.active) return;
@@ -156,6 +176,7 @@ public final class SkyOmens {
         ClientLevel level = mc.level;
         if (level == null || !level.dimensionType().hasSkyLight() || level.effects().skyType() != net.minecraft.client.renderer.DimensionSpecialEffects.SkyType.NORMAL) return;
         float pt = event.getPartialTick().getGameTimeDeltaPartialTick(false);
+        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_SKY) updateExposure(level);
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_SKY) renderSky(event, level, pt);
         else if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_WEATHER) renderGrade(level, pt);
     }
@@ -235,8 +256,8 @@ public final class SkyOmens {
             quad(ps, corona, 0, 100, 0, 40, 0.92F, 0.95F, 1.0F, total * total * 0.95F * clear);
             normal();
             quad(ps, hardDisc, off, 100, off * 0.4F, 16.5F, 0.015F, 0.015F, 0.025F, Math.min(1, cov * 3) * clear);
-            ambienceOverride = eclipseMusic ? total : 0;
-            if (eclipseSurge && total > 0.5F) Ghosts.surge(level.getGameTime() + 100);
+            ambienceOverride = eclipseMusic ? total * exposure : 0;
+            if (eclipseSurge && total > 0.5F && exposure > 0.5F) Ghosts.surge(level.getGameTime() + 100);
         } else {
             ambienceOverride = 0;
         }
@@ -294,12 +315,12 @@ public final class SkyOmens {
         float tod = (float) (dayTime - day * 24000.0);
         float r = 1, g = 1, b = 1;
         if (omenFor(day) == Omen.SMOG && tod < 12600) {
-            float k = Mth.clamp(tod / 800F, 0, 1) * Mth.clamp((12600 - tod) / 800F, 0, 1);
+            float k = Mth.clamp(tod / 800F, 0, 1) * Mth.clamp((12600 - tod) / 800F, 0, 1) * exposure;
             r = Mth.lerp(k, 1, tintR); g = Mth.lerp(k, 1, tintG); b = Mth.lerp(k, 1, tintB);
         }
         float cov = eclipseCoverage(level, pt);
         if (cov > 0) {
-            float d = eclipseDarken * cov * cov;
+            float d = eclipseDarken * cov * cov * exposure;
             r *= 1 - d * 1.0F; g *= 1 - d * 0.94F; b *= 1 - d * 0.82F;   // cold, blue-shifted dusk
         }
         if (r >= 0.999F && g >= 0.999F && b >= 0.999F) return;
